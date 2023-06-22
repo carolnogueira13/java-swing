@@ -1,0 +1,285 @@
+package br.senac.rj.banco.janelas;
+
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+
+import br.senac.rj.banco.modelo.Classificacao;
+import br.senac.rj.banco.modelo.Time;
+
+public class JanelaClassificacao {
+	
+	private static JComboBox<Time> comboTimes;
+	
+	public static JFrame criarJanelaJogador() {
+		// Define a janela
+		JFrame janelaClassificacao = new JFrame("Atualização da classificação do time"); // Janela Normal
+		janelaClassificacao.setResizable(false); // A janela não poderá ter o tamanho ajustado
+		janelaClassificacao.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		janelaClassificacao.setSize(500, 400); // Define tamanho da janela
+		janelaClassificacao.setLocation(50, 250);
+		
+		// Define o layout da janela
+		Container caixa = janelaClassificacao.getContentPane();
+		caixa.setLayout(null);
+		
+		// Define os labels dos campos
+		JLabel labelId = new JLabel("Id: ");
+		JLabel labelTime = new JLabel("Time: ");
+		JLabel labelPontuacao = new JLabel("Pontuação:");
+		JLabel labelVitorias = new JLabel("Vitórias:");
+		JLabel labelDerrotas = new JLabel("Derrotas:");
+		JLabel labelEmpates = new JLabel("Empates:");
+		
+		// Posiciona os labels na janela
+		labelId.setBounds(50, 40, 100, 20); // coluna, linha, largura, tamanho
+		labelTime.setBounds(50, 80, 150, 20); // coluna, linha, largura, tamanho
+		labelPontuacao.setBounds(50, 120, 100, 20); // coluna, linha, largura, tamanho
+		labelVitorias.setBounds(50, 160, 100, 20);
+		labelDerrotas.setBounds(50, 200, 100, 20);
+		labelEmpates.setBounds(50, 240, 100, 20);
+
+		
+		// Define os input box
+		JTextField jTextId = new JTextField();
+		JTextField jTextPontuacao = new JTextField();
+		JTextField jTextVitorias = new JTextField();
+		JTextField jTextDerrotas = new JTextField();
+		JTextField jTextEmpates = new JTextField();
+		
+		// Define se os campos estão habilitados ou não no início
+		jTextId.setEditable(false);
+		jTextPontuacao.setEnabled(false);
+		jTextVitorias.setEnabled(false);
+		jTextDerrotas.setEnabled(false);
+		jTextEmpates.setEnabled(false);
+		
+		// Posiciona os input box
+		jTextId.setBounds(180, 40, 50, 20);
+		jTextPontuacao.setBounds(180, 120, 50, 20);
+		jTextVitorias.setBounds(180, 160, 50, 20);
+		jTextDerrotas.setBounds(180, 200, 50, 20);
+		jTextEmpates.setBounds(180, 240, 50, 20);
+		
+		
+		// Adiciona os rótulos e os input box na janela
+		janelaClassificacao.add(labelId);
+		janelaClassificacao.add(labelTime);
+		janelaClassificacao.add(labelPontuacao);
+		janelaClassificacao.add(labelVitorias);
+		janelaClassificacao.add(labelDerrotas);
+		janelaClassificacao.add(labelEmpates);
+		janelaClassificacao.add(jTextId);
+		janelaClassificacao.add(jTextPontuacao);
+		janelaClassificacao.add(jTextVitorias);
+		janelaClassificacao.add(jTextDerrotas);
+		janelaClassificacao.add(jTextEmpates);
+		
+		
+		//ComboBox de Times 
+		comboTimes = new JComboBox<Time>();
+	    comboTimes.setBounds(180, 80, 150, 20);
+	    comboTimes.setEnabled(true);
+	    janelaClassificacao.add(labelTime);
+        janelaClassificacao.add(comboTimes);
+        
+        atualizarComboboxTimes();
+
+        comboTimes.addPopupMenuListener(new PopupMenuListener() {
+			
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				atualizarComboboxTimes();
+				
+			}
+			
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
+		// Define botões e a localização deles na janela
+		JButton botaoConsultar = new JButton("Consultar");
+		botaoConsultar.setBounds(350, 80, 100, 20);
+		janelaClassificacao.add(botaoConsultar);
+		JButton botaoGravar = new JButton("Gravar");
+		botaoGravar.setBounds(50, 300, 100, 20);
+		botaoGravar.setEnabled(false);
+		janelaClassificacao.add(botaoGravar);
+		JButton botaoLimpar = new JButton("Limpar");
+		botaoLimpar.setBounds(350, 300, 100, 20);
+		janelaClassificacao.add(botaoLimpar);
+		JButton botaoDeletar = new JButton("Deletar");
+		botaoDeletar.setBounds(200, 300, 100, 20);
+		botaoDeletar.setEnabled(false);
+		janelaClassificacao.add(botaoDeletar);
+	
+		
+		// Define objeto estudante para pesquisar no banco de dados
+		Classificacao classificacao = new Classificacao();
+		
+		
+		// Define ações dos botões
+		botaoConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Time time = (Time) comboTimes.getSelectedItem();
+					botaoGravar.setEnabled(true);
+					botaoDeletar.setEnabled(true);
+					if (time.equals(null)) {
+						JOptionPane.showMessageDialog(janelaClassificacao, "Preencha o campo faltante");
+					} else {
+							if (!classificacao.consultarClassificacao(time)) {
+								JOptionPane.showMessageDialog(janelaClassificacao, "Time não encontrado na classificação!");
+								jTextPontuacao.setText("");
+								jTextEmpates.setText("");
+								jTextDerrotas.setText("");
+								jTextVitorias.setText("");
+								
+							}
+							else {
+								jTextId.setText(String.valueOf(classificacao.getId()));
+								jTextPontuacao.setText(String.valueOf(classificacao.getPontuacao()));
+								jTextEmpates.setText(String.valueOf(classificacao.getEmpates()));
+								jTextDerrotas.setText(String.valueOf(classificacao.getDerrotas()));
+								jTextVitorias.setText(String.valueOf(classificacao.getVitorias()));
+							}
+						}
+					System.out.println(time);
+					jTextPontuacao.setEnabled(true);
+					jTextVitorias.setEnabled(true);
+					jTextDerrotas.setEnabled(true);
+					jTextEmpates.setEnabled(true);
+					comboTimes.setSelectedItem(time);
+					comboTimes.setEnabled(false);
+					botaoConsultar.setEnabled(false);
+					jTextPontuacao.requestFocus();
+				} catch (Exception erro) {
+					JOptionPane.showMessageDialog(janelaClassificacao,
+							"Preencha os campos faltantes!");
+				}
+			}
+		});
+		
+		
+		botaoGravar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja atualizar?", "Confirmação",
+						JOptionPane.YES_NO_OPTION);
+				if (resposta == JOptionPane.YES_OPTION) {
+					int pontuacao = Integer.parseInt(jTextPontuacao.getText());
+					int derrotas = Integer.parseInt(jTextDerrotas.getText());
+					int vitorias = Integer.parseInt(jTextVitorias.getText());
+					int empates = Integer.parseInt(jTextEmpates.getText());
+			        Time time = (Time) comboTimes.getSelectedItem();
+					if ( time.equals(null) ) {
+						JOptionPane.showMessageDialog(janelaClassificacao, "Preencha o campo faltante");
+						jTextPontuacao.requestFocus();
+					} else {
+						if (!classificacao.consultarClassificacao(time)) {
+							if (!classificacao.cadastrarClassificacao(time, pontuacao, vitorias, derrotas, empates))
+								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na inclusão da classificação!");
+							else {
+								JOptionPane.showMessageDialog(janelaClassificacao, "Inclusão realizada!");
+								botaoLimpar.doClick();
+							}
+								
+						} else {
+							if (!classificacao.atualizaClassificacao(time, pontuacao, vitorias, derrotas, empates))
+								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na atualização da classificação do time!");
+							else {
+								JOptionPane.showMessageDialog(janelaClassificacao, "Alteração realizada!");
+								botaoLimpar.doClick();
+							}
+						}
+					}
+				}
+			}
+		});
+		
+		
+		botaoDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja deletar?", "Confirmação",
+						JOptionPane.YES_NO_OPTION);
+				if (resposta == JOptionPane.YES_OPTION) {
+					Time time = (Time) comboTimes.getSelectedItem();
+					if (!classificacao.consultarClassificacao(time)) {
+						JOptionPane.showMessageDialog(janelaClassificacao, "Impossivel excluir time ainda não incluido na classificação!");
+					} else {
+						if (!classificacao.deletarClassificacao(time))
+							JOptionPane.showMessageDialog(janelaClassificacao, "Erro ao excluir o time da classificação!");
+						else {
+							JOptionPane.showMessageDialog(janelaClassificacao, "Exclusão realizada!");
+							botaoLimpar.doClick();
+						}
+						}
+					}
+				}
+			}
+		);
+		
+		botaoLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jTextId.setText(""); // Limpar campo
+				jTextPontuacao.setText("");
+				jTextEmpates.setText("");
+				jTextDerrotas.setText("");
+				jTextVitorias.setText("");
+				comboTimes.setSelectedItem(null);
+				comboTimes.setEnabled(true);
+				jTextPontuacao.setEnabled(false);
+				jTextVitorias.setEnabled(false);
+				jTextDerrotas.setEnabled(false);
+				jTextEmpates.setEnabled(false);
+				botaoConsultar.setEnabled(true);
+				botaoGravar.setEnabled(false);
+				botaoDeletar.setEnabled(false);
+				jTextId.requestFocus(); // Colocar o foco em um campo
+			}
+		}
+		);
+		
+		return janelaClassificacao;
+	}
+	
+	public static void atualizarComboboxTimes() {
+		try {
+			List<Time> listaTimes = JanelaListaTimes.obterListaTimesDoBanco();
+	        comboTimes.removeAllItems();
+	        for (Time time : listaTimes) {
+	            comboTimes.addItem(time);
+	        }
+	        comboTimes.revalidate();
+	        comboTimes.repaint();
+	        comboTimes.setSelectedItem(null);
+		} catch (Exception e) {
+			System.out.println("Erro ao consultar os times: " + e.toString());
+		}
+        
+    }
+	
+}
+

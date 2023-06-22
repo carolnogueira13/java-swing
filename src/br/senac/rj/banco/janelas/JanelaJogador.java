@@ -1,0 +1,311 @@
+package br.senac.rj.banco.janelas;
+
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+import javax.swing.text.MaskFormatter;
+
+import br.senac.rj.banco.modelo.Jogador;
+import br.senac.rj.banco.modelo.Time;
+
+public class JanelaJogador {
+	
+	private static JComboBox<Time> comboTimes;
+	
+	public static JFrame criarJanelaJogador() {
+		// Define a janela
+		JFrame janelaJogador = new JFrame("Atualização do jogador"); // Janela Normal
+		janelaJogador.setResizable(false); // A janela não poderá ter o tamanho ajustado
+		janelaJogador.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		janelaJogador.setSize(500, 300); // Define tamanho da janela
+		janelaJogador.setLocation(50, 250);
+		
+		// Define o layout da janela
+		Container caixa = janelaJogador.getContentPane();
+		caixa.setLayout(null);
+		
+		// Define os labels dos campos
+		JLabel labelId = new JLabel("Id: ");
+		JLabel labelNome = new JLabel("Nome: ");
+		JLabel labelNascimento = new JLabel("Data nascimento:");
+		
+		// Posiciona os labels na janela
+		labelId.setBounds(50, 40, 100, 20); // coluna, linha, largura, tamanho
+		labelNome.setBounds(50, 80, 150, 20); // coluna, linha, largura, tamanho
+		labelNascimento.setBounds(50, 120, 100, 20); // coluna, linha, largura, tamanho
+		
+		// Mascara para o campo de data
+		String formatoMascara = "##/##/####";
+		MaskFormatter mascara;
+		JFormattedTextField jFormattedTextNascimento = null;
+		try {
+			mascara = new MaskFormatter(formatoMascara);
+			jFormattedTextNascimento = new JFormattedTextField(mascara);
+			jFormattedTextNascimento.setBounds(180, 120, 250, 20);
+			janelaJogador.add(jFormattedTextNascimento);
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+
+		
+		// Define os input box
+		JTextField jTextId = new JTextField();
+		JTextField jTextNome = new JTextField();
+		
+		// Define se os campos estão habilitados ou não no início
+		jTextId.setEditable(true);
+		jTextNome.setEnabled(false);
+		jFormattedTextNascimento.setEnabled(false);
+		
+		// Posiciona os input box
+		jTextId.setBounds(180, 40, 50, 20);
+		jTextNome.setBounds(180, 80, 150, 20);
+		
+		
+		// Adiciona os rótulos e os input box na janela
+		janelaJogador.add(labelId);
+		janelaJogador.add(labelNome);
+		janelaJogador.add(labelNascimento);
+		janelaJogador.add(jTextId);
+		janelaJogador.add(jTextNome);
+		
+		
+		//ComboBox de Times 
+		JLabel labelTime = new JLabel("Time: ");
+		labelTime.setBounds(50,160, 200, 20 );
+		comboTimes = new JComboBox<Time>();
+	    comboTimes.setBounds(180, 160, 250, 20);
+	    comboTimes.setEnabled(false);
+	    janelaJogador.add(labelTime);
+        janelaJogador.add(comboTimes);
+        
+        comboTimes.addPopupMenuListener(new PopupMenuListener() {
+			
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+				atualizarComboboxTimes();
+				
+			}
+			
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+			
+			
+        atualizarComboboxTimes();
+		
+		// Define botões e a localização deles na janela
+		JButton botaoConsultar = new JButton("Consultar");
+		botaoConsultar.setBounds(230, 40, 100, 20);
+		janelaJogador.add(botaoConsultar);
+		JButton botaoGravar = new JButton("Gravar");
+		botaoGravar.setBounds(50, 200, 100, 20);
+		botaoGravar.setEnabled(false);
+		janelaJogador.add(botaoGravar);
+		JButton botaoLimpar = new JButton("Limpar");
+		botaoLimpar.setBounds(350, 200, 100, 20);
+		janelaJogador.add(botaoLimpar);
+		JButton botaoDeletar = new JButton("Deletar");
+		botaoDeletar.setBounds(200, 200, 100, 20);
+		botaoDeletar.setEnabled(false);
+		janelaJogador.add(botaoDeletar);
+	
+		
+		// Define objeto estudante para pesquisar no banco de dados
+		Jogador jogador = new Jogador();
+		
+		final JFormattedTextField jFormattedTextNascimentoFinal = jFormattedTextNascimento;
+		
+		// Define ações dos botões
+		botaoConsultar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int id = Integer.parseInt(jTextId.getText());
+					botaoGravar.setEnabled(true);
+					botaoDeletar.setEnabled(true);
+					Time time;
+					if (!jogador.consultarJogador(id)) {
+						JOptionPane.showMessageDialog(janelaJogador, "Jogador não encontrado!");
+						jTextNome.setText("");
+						jFormattedTextNascimentoFinal.setText("");
+						time = null;
+					}
+					else {
+						jTextId.setText(String.valueOf(jogador.getId()));
+						jTextNome.setText(jogador.getNome());
+						Date dataNascimento = jogador.getNascimento();
+						SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+						String dataFormatada2 = formatoData.format(dataNascimento);
+						jFormattedTextNascimentoFinal.setText(dataFormatada2);
+						time = jogador.getTime();
+					}
+					
+					System.out.println(time);
+					jTextNome.setEnabled(true);
+					jTextId.setEnabled(false);
+					comboTimes.setSelectedItem(time);					
+					jFormattedTextNascimentoFinal.setEnabled(true);
+					comboTimes.setEnabled(true);
+					botaoConsultar.setEnabled(false);
+					jTextNome.requestFocus();
+				} catch (Exception erro) {
+					JOptionPane.showMessageDialog(janelaJogador,
+							"Preencha os campos restantes de forma correta!");
+				}
+			}
+		});
+		
+		
+		botaoGravar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int resposta = JOptionPane.showConfirmDialog(janelaJogador, "Deseja atualizar?", "Confirmação",
+						JOptionPane.YES_NO_OPTION);
+				if (resposta == JOptionPane.YES_OPTION) {
+					String nome = jTextNome.getText().trim();
+					String dataString = jFormattedTextNascimentoFinal.getText();
+			        String formato = "dd/MM/yyyy";
+			        SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+			        Date data = null;
+			        try {
+			            data = dateFormat.parse(dataString);
+			            System.out.println("Data convertida: " + data);
+			            Time time = (Time) comboTimes.getSelectedItem();
+				        if (nome.length() == 0 && data != null) {
+				        	JOptionPane.showMessageDialog(janelaJogador,
+									"Preencha o campos restante nome de forma correta!");
+							jTextNome.requestFocus();
+						} else {
+						    int id = Integer.parseInt(jTextId.getText());
+						    if (time == null) {
+						        if (!jogador.consultarJogador(id)) {
+						            if (!jogador.cadastrarJogador(nome, data)) {
+						                JOptionPane.showMessageDialog(janelaJogador, "Erro na inclusão do jogador!");
+						            } else {
+						                JOptionPane.showMessageDialog(janelaJogador, "Inclusão realizada para jogador!");
+						                botaoLimpar.doClick();
+						            }
+						        } else {
+						            if (!jogador.atualizaJogador(nome, data)) {
+						                JOptionPane.showMessageDialog(janelaJogador, "Erro na atualização do jogador!");
+						            } else {
+						                JOptionPane.showMessageDialog(janelaJogador, "Alteração realizada para jogador!");
+						                botaoLimpar.doClick();
+						            }
+						        }
+						    } else {
+						        // time não é nulo, chama a função atualizaJogador e cadastraJogador
+						        if (!jogador.consultarJogador(id)) {
+						            if (!jogador.cadastrarJogador(nome, data, time))
+						                JOptionPane.showMessageDialog(janelaJogador, "Erro na inclusão do jogador!");
+						            else {
+						                JOptionPane.showMessageDialog(janelaJogador, "Inclusão realizada!");
+						                botaoLimpar.doClick();
+						            }
+						        } else {
+						            if (!jogador.atualizaJogador(nome, data, time))
+						                JOptionPane.showMessageDialog(janelaJogador, "Erro na atualização do jogador!");
+						            else {
+						                JOptionPane.showMessageDialog(janelaJogador, "Alteração realizada!");
+						                botaoLimpar.doClick();
+						            }
+						        }
+						    }
+						}
+			        } catch (ParseException e2) {
+			        	JOptionPane.showMessageDialog(janelaJogador,
+								"Preencha o campo restantes data de forma correta!");
+			            System.out.println("Erro ao converter a data: " + e2.getMessage());
+			            
+			        }	
+
+			}
+			}});
+		
+		
+		botaoDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				int resposta = JOptionPane.showConfirmDialog(janelaJogador, "Deseja deletar?", "Confirmação",
+						JOptionPane.YES_NO_OPTION);
+				if (resposta == JOptionPane.YES_OPTION) {
+					int id = Integer.parseInt(jTextId.getText());
+					if (!jogador.consultarJogador(id)) {
+						JOptionPane.showMessageDialog(janelaJogador, "Impossivel excluir jogador não cadastrado!");
+					} else {
+						id = jogador.getId();
+						if (!jogador.deletarJogador(id))
+							JOptionPane.showMessageDialog(janelaJogador, "Erro ao excluir o jogador!");
+						else {
+							JOptionPane.showMessageDialog(janelaJogador, "Exclusão realizada!");
+							botaoLimpar.doClick();
+						}
+						}
+					}
+				}
+			}
+		);
+		
+		botaoLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				jTextId.setText(""); // Limpar campo
+				jTextNome.setText(""); // Limpar campo
+				jFormattedTextNascimentoFinal.setText(""); // Limpar campo
+				comboTimes.setSelectedItem(null);
+				comboTimes.setEnabled(false);
+				jTextId.setEnabled(true);
+				jTextNome.setEnabled(false);
+				jFormattedTextNascimentoFinal.setEnabled(false);
+				botaoConsultar.setEnabled(true);
+				botaoGravar.setEnabled(false);
+				botaoDeletar.setEnabled(false);
+				jTextId.requestFocus(); // Colocar o foco em um campo
+			}
+		}
+		);
+		
+		return janelaJogador;
+	}
+	
+	public static void atualizarComboboxTimes() {
+		try {
+			List<Time> listaTimes = JanelaListaTimes.obterListaTimesDoBanco();
+	        comboTimes.removeAllItems();
+	        comboTimes.addItem(null);
+	        for (Time time : listaTimes) {
+	            comboTimes.addItem(time);
+	        }
+	        comboTimes.revalidate();
+	        comboTimes.repaint();
+		} catch (Exception e) {
+			System.out.println("Erro ao consultar os times: " + e.toString());
+		}
+        
+    }
+	
+}
+
