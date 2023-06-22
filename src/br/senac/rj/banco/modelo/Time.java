@@ -125,6 +125,8 @@ public class Time {
 	public boolean cadastrarTime(String nome, String tecnico, String cidade, String estado) {
 		if(!Arrays.asList(Time.siglas).contains(estado)) {
 			return false;
+		}else if(nome.isBlank() || cidade.isBlank() || estado.isBlank()) {
+			return false;
 		}
 		else {
 			Connection conexao = null;
@@ -155,6 +157,8 @@ public class Time {
 	
 	public boolean cadastrarTime(String nome, String cidade, String estado) {
 		if(!Arrays.asList(Time.siglas).contains(estado)) {
+			return false;
+		}else if(nome.isBlank() || cidade.isBlank() || estado.isBlank()) {
 			return false;
 		}
 		else {
@@ -196,10 +200,10 @@ public class Time {
 			ps.setInt(5, this.id);
 			int totalRegistrosModificados = ps.executeUpdate();
 			if(totalRegistrosModificados>=1) {
-				System.out.println("Atualizações realizadas");
+				System.out.println("AtualizaÃ§Ãµes realizadas");
 				return true;
 			}else {
-				System.out.println("Erro ao fazer atualização");
+				System.out.println("Erro ao fazer atualizaÃ§Ã£o");
 				return false;
 			}
 		} catch (SQLException e) {
@@ -209,7 +213,30 @@ public class Time {
 			Conexao.fechaConexao(conexao);
 		}
 	}
-	
+	public boolean deletarTime() {
+		Connection conexao = null;
+		
+		try {
+			conexao = Conexao.conectaBanco();
+			String sql = "Delete from time where id =?";
+			PreparedStatement ps = conexao.prepareStatement(sql);
+			ps.setInt(1, this.id);
+			int totalRegistrosModificados = ps.executeUpdate();
+			if(totalRegistrosModificados>=1) {
+				System.out.println("Time deletado");
+				return true;
+			}else {
+				System.out.println("Erro ao fazer delete");
+				return false;
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao deletar o time: " + e.toString());
+			return false;
+		}finally {
+			Conexao.fechaConexao(conexao);
+		}
+		
+	}
 	
 	
 	
