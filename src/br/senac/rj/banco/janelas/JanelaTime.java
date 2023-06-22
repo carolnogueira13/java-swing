@@ -10,14 +10,20 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import br.senac.rj.banco.modelo.Time;
 
 public class JanelaTime {
 	private static JComboBox<String> comboEstados;
-	
+	private static DefaultTableModel modelJanelaTime;
+    private static JTable tableJanelaTime;
+    
 	public static JFrame criarJanelaTime() {
 		
 		JFrame janelaTime = new JFrame("Janela Time"); 
@@ -77,6 +83,19 @@ public class JanelaTime {
 		botaoGravar.setEnabled(false);
 		botaoDeletar.setEnabled(false);
 		
+		modelJanelaTime = new DefaultTableModel();
+		tableJanelaTime = new JTable(modelJanelaTime);
+		JScrollPane scrollPaneJanelaTime = new JScrollPane(tableJanelaTime);
+		
+		scrollPaneJanelaTime.setBounds(10, 300, 470, 350);
+		String[] colunas = {"Id", "Nome", "Data Nascimento"};
+        modelJanelaTime.setColumnIdentifiers(colunas);
+        tableJanelaTime.setRowHeight(20);
+        
+        TableColumnModel columnModelJanelaTime = tableJanelaTime.getColumnModel();
+        columnModelJanelaTime.getColumn(0).setPreferredWidth(10);
+        columnModelJanelaTime.getColumn(1).setPreferredWidth(150);
+        columnModelJanelaTime.getColumn(2).setPreferredWidth(150);
 
 		janelaTime.add(labelId);
 		janelaTime.add(labelNome);
@@ -92,6 +111,7 @@ public class JanelaTime {
 		janelaTime.add(botaoGravar);
 		janelaTime.add(botaoDeletar);
 		janelaTime.add(botaoLimpar);
+		janelaTime.add(scrollPaneJanelaTime);
 		
 		Time time = new Time();
 		
@@ -104,7 +124,7 @@ public class JanelaTime {
 				try {
 					int id = Integer.parseInt(jTextId.getText());
 					if (!time.consultarTime(id)) {
-						JOptionPane.showMessageDialog(janelaTime, "Time não encontrado!");
+						JOptionPane.showMessageDialog(janelaTime, "Time nï¿½o encontrado!");
 						jTextId.setText("");
 					}else {
 						jTextId.setText(String.valueOf(time.getId()));
@@ -176,11 +196,16 @@ public class JanelaTime {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int resposta = JOptionPane.showConfirmDialog(janelaTime, "Deseja realmente deletar o time?", "Confirmação", JOptionPane.YES_NO_OPTION); 
+				int resposta = JOptionPane.showConfirmDialog(janelaTime, "Deseja realmente deletar o time?", "Confirmaï¿½ï¿½o", JOptionPane.YES_NO_OPTION); 
 				if(resposta == JOptionPane.YES_OPTION) {
-					
+					if(time.deletarTime()) {
+						JOptionPane.showMessageDialog(janelaTime,"Time deletado com sucesso");
+						botaoLimpar.doClick();
+					}else {
+						JOptionPane.showMessageDialog(janelaTime,"Falha ao deletar time");
+					}
 				}else {
-					JOptionPane.showMessageDialog(janelaTime, "Operação cancelada");
+					JOptionPane.showMessageDialog(janelaTime, "Operaï¿½ï¿½o cancelada");
 				}
 			}
 		});
