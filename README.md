@@ -10,6 +10,7 @@ Projeto desenvolvido durante a disciplina de Programação I.
 
 ## Estrutura do projeto
 
+```
 ───src
 │   └───br
 │       └───senac
@@ -18,6 +19,7 @@ Projeto desenvolvido durante a disciplina de Programação I.
 │                       ├───janelas
 │                       ├───modelo
 │                       └───teste
+```
 
 No pacote `janelas` estão todas as janelas do projeto acessórias do projeto, que estão localizadas no menu superior da janela principal, duas janelas para cada uma das entidades do projeto. 
 
