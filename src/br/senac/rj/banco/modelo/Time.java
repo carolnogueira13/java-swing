@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Time {
@@ -237,6 +239,39 @@ public class Time {
 		}
 		
 	}
+	
+	public static List<Time> obterListaTimesDoBanco() {
+        List<Time> times = new ArrayList<>();
+
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectaBanco();
+            String sql = "select * from time";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst()) { // Verifica se há registros
+                System.out.println("Não há times cadastrados!");
+                return null;
+            } else {
+                // Efetua a leitura dos registros da tabela
+                while (rs.next()) {
+                	int id = rs.getInt("id");
+                	String nome = rs.getString("nome");
+                    String tecnico = rs.getString("tecnico");
+                    String estado = rs.getString("estado");
+                    String cidade = rs.getString("cidade");
+                    Time time = new Time(id, nome, tecnico, estado, cidade);
+                    times.add(time);
+                }
+                return times;
+            }
+        } catch (SQLException erro) {
+            System.out.println("Erro ao consultar times: " + erro.toString());
+            return null;
+        } finally {
+            Conexao.fechaConexao(conexao);
+        }
+    }
 	
 	
 	

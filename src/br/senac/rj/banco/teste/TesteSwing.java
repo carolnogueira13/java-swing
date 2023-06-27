@@ -74,7 +74,6 @@ public class TesteSwing {
 		// Adiciona ação para o item do menu
 		menuItemAtualizarJogador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JanelaJogador.atualizarComboboxTimes();
 				janelaJogador.setVisible(true);
 			}
 		});
@@ -84,7 +83,7 @@ public class TesteSwing {
 		// Adiciona ação para o item do menu
 		menuItemListaJogadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				   JanelaListaJogadores.atualizarListaTimes();
+				   JanelaListaJogadores.atualizarListaJogadores();
 				   janelaListaJogadores.setVisible(true);
 				}
 			

@@ -175,7 +175,7 @@ public class JanelaTime {
 				try {
 					int id = Integer.parseInt(jTextId.getText());
 					if (!time.consultarTime(id)) {
-						JOptionPane.showMessageDialog(janelaTime, "Time nï¿½o encontrado!");
+						JOptionPane.showMessageDialog(janelaTime, "Time não encontrado!");
 						jTextId.setText("");
 					}else {
 						jTextId.setText(String.valueOf(time.getId()));
@@ -249,7 +249,7 @@ public class JanelaTime {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int resposta = JOptionPane.showConfirmDialog(janelaTime, "Deseja realmente deletar o time?", "Confirmaï¿½ï¿½o", JOptionPane.YES_NO_OPTION); 
+				int resposta = JOptionPane.showConfirmDialog(janelaTime, "Deseja realmente deletar o time?", "Confirmação", JOptionPane.YES_NO_OPTION); 
 				if(resposta == JOptionPane.YES_OPTION) {
 					if(time.deletarTime()) {
 						JOptionPane.showMessageDialog(janelaTime,"Time deletado com sucesso");
@@ -258,7 +258,7 @@ public class JanelaTime {
 						JOptionPane.showMessageDialog(janelaTime,"Falha ao deletar time");
 					}
 				}else {
-					JOptionPane.showMessageDialog(janelaTime, "Operaï¿½ï¿½o cancelada");
+					JOptionPane.showMessageDialog(janelaTime, "Operação cancelada");
 				}
 			}
 		});

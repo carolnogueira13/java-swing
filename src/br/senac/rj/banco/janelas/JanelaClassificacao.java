@@ -3,6 +3,8 @@ package br.senac.rj.banco.janelas;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -94,8 +96,8 @@ public class JanelaClassificacao {
 	    janelaClassificacao.add(labelTime);
         janelaClassificacao.add(comboTimes);
         
-        atualizarComboboxTimes();
 
+        // Para quando abrir o ComboBox chamar o método para atualizar o ComboBox 
         comboTimes.addPopupMenuListener(new PopupMenuListener() {
 			
 			@Override
@@ -135,8 +137,55 @@ public class JanelaClassificacao {
 		janelaClassificacao.add(botaoDeletar);
 	
 		
-		// Define objeto estudante para pesquisar no banco de dados
+		// Define objeto classificação para pesquisar no banco de dados
 		Classificacao classificacao = new Classificacao();
+		
+		
+		// Adicionou um Listener na janela, nesse caso para quando estiver fechando simular um clique no botão limpar para limpar a janela 
+		janelaClassificacao.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				botaoLimpar.doClick();
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 		
 		// Define ações dos botões
@@ -267,7 +316,7 @@ public class JanelaClassificacao {
 	
 	public static void atualizarComboboxTimes() {
 		try {
-			List<Time> listaTimes = JanelaListaTimes.obterListaTimesDoBanco();
+			List<Time> listaTimes = Time.obterListaTimesDoBanco();
 	        comboTimes.removeAllItems();
 	        for (Time time : listaTimes) {
 	            comboTimes.addItem(time);

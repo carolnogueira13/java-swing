@@ -251,6 +251,46 @@ public class Jogador {
 		}
 	}
 	
+	public static List<Jogador> obterListaJogadoresDoBanco() {
+        List<Jogador> jogadores = new ArrayList<>();
+
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectaBanco();
+            String sql = "select j.id, j.nome, j.nascimento, t.id, t.nome, t.tecnico, t.estado, t.cidade from jogador j LEFT JOIN time t ON j.id_time = t.id";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst()) { // Verifica se há registros
+                System.out.println("Não há times cadastrados!");
+                return null;
+            } else {
+                // Efetua a leitura dos registros da tabela
+                while (rs.next()) {
+                	int id = rs.getInt("j.id");
+					String nome = rs.getString("j.nome");
+					Date nascimento = rs.getDate("j.nascimento");
+					
+					int idTime = rs.getInt("t.id");
+				    String nomeTime = rs.getString("t.nome");
+				    String nomeTecnico = rs.getString("t.tecnico");
+				    String EstadoTime = rs.getString("t.estado");
+				    String CidadeTime = rs.getString("t.cidade");
+				    Time time = new Time(idTime, nomeTime, nomeTecnico, EstadoTime, CidadeTime);
+				    
+				    Jogador jogador = new Jogador(id, nome, nascimento, time);
+				    jogadores.add(jogador);
+				    
+                }
+                return jogadores;
+            }
+        } catch (SQLException erro) {
+            System.out.println("Erro ao consultar jogadores: " + erro.toString());
+            return null;
+        } finally {
+            Conexao.fechaConexao(conexao);
+        }
+    }
+	
 	public static List<Jogador> obterListaDeJogadoresDeTime(Time time){
 		List<Jogador> jogadoresDoTime = new ArrayList<>();
 		Connection conexao = null;

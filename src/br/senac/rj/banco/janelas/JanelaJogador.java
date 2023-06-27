@@ -3,6 +3,8 @@ package br.senac.rj.banco.janelas;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -94,6 +96,7 @@ public class JanelaJogador {
 	    janelaJogador.add(labelTime);
         janelaJogador.add(comboTimes);
         
+        // Para quando abrir o ComboBox chamar o método para atualizar o ComboBox 
         comboTimes.addPopupMenuListener(new PopupMenuListener() {
 			
 			@Override
@@ -116,7 +119,7 @@ public class JanelaJogador {
 		});
 			
 			
-        atualizarComboboxTimes();
+
 		
 		// Define botões e a localização deles na janela
 		JButton botaoConsultar = new JButton("Consultar");
@@ -135,10 +138,57 @@ public class JanelaJogador {
 		janelaJogador.add(botaoDeletar);
 	
 		
-		// Define objeto estudante para pesquisar no banco de dados
+		// Define objeto jogador para pesquisar no banco de dados
 		Jogador jogador = new Jogador();
 		
 		final JFormattedTextField jFormattedTextNascimentoFinal = jFormattedTextNascimento;
+		
+		// Adicionou um Listener na janela, nesse caso para quando estiver fechando simular um clique no botão limpar para limpar a janela
+		janelaJogador.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				botaoLimpar.doClick();
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		
 		// Define ações dos botões
 		botaoConsultar.addActionListener(new ActionListener() {
@@ -218,7 +268,7 @@ public class JanelaJogador {
 						            }
 						        }
 						    } else {
-						        // time não é nulo, chama a função atualizaJogador e cadastraJogador
+						        // time não é nulo
 						        if (!jogador.consultarJogador(id)) {
 						            if (!jogador.cadastrarJogador(nome, data, time))
 						                JOptionPane.showMessageDialog(janelaJogador, "Erro na inclusão do jogador!");
@@ -293,7 +343,7 @@ public class JanelaJogador {
 	
 	public static void atualizarComboboxTimes() {
 		try {
-			List<Time> listaTimes = JanelaListaTimes.obterListaTimesDoBanco();
+			List<Time> listaTimes = Time.obterListaTimesDoBanco();
 	        comboTimes.removeAllItems();
 	        comboTimes.addItem(null);
 	        for (Time time : listaTimes) {

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Classificacao {
@@ -212,6 +214,48 @@ public class Classificacao {
 		}
 	}
 	
+	public static List<Classificacao> obterListaClassificacaoDoBanco() {
+        List<Classificacao> classificacoes = new ArrayList<>();
+
+        Connection conexao = null;
+        try {
+            conexao = Conexao.conectaBanco();
+            String sql = "select c.id, c.pontuacao, c.vitorias, c.derrotas, c.empates, t.id, t.nome, t.tecnico, t.estado, t.cidade from classificacao c JOIN time t ON t.id = c.id_time ORDER BY c.pontuacao DESC";
+            PreparedStatement ps = conexao.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.isBeforeFirst()) { // Verifica se há registros
+                System.out.println("Não há times cadastrados!");
+                return null;
+            } else {
+                // Efetua a leitura dos registros da tabela
+                while (rs.next()) {
+                	int id = rs.getInt("c.id");
+                	int pontuacao = rs.getInt("c.pontuacao");
+                	int vitorias = rs.getInt("c.vitorias");
+                	int derrotas = rs.getInt("c.derrotas");
+                	int empates = rs.getInt("c.empates");
+                	
+                	
+                	int idTime = rs.getInt("t.id");
+				    String nomeTime = rs.getString("t.nome");
+				    String nomeTecnico = rs.getString("t.tecnico");
+				    String EstadoTime = rs.getString("t.estado");
+				    String CidadeTime = rs.getString("t.cidade");
+				    Time time = new Time(idTime, nomeTime, nomeTecnico, EstadoTime, CidadeTime);
+				    
+				    Classificacao classif = new Classificacao(id, time, pontuacao, vitorias,derrotas,empates);
+				    classificacoes.add(classif);
+                    
+                }
+                return classificacoes;
+            }
+        } catch (SQLException erro) {
+            System.out.println("Erro ao consultar classificações dos times: " + erro.toString());
+            return null;
+        } finally {
+            Conexao.fechaConexao(conexao);
+        }
+    }
 	
 	
 	
