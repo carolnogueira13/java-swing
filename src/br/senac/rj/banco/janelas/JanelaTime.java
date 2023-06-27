@@ -3,7 +3,11 @@ package br.senac.rj.banco.janelas;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +21,7 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import br.senac.rj.banco.modelo.Jogador;
 import br.senac.rj.banco.modelo.Time;
 
 public class JanelaTime {
@@ -29,7 +34,7 @@ public class JanelaTime {
 		JFrame janelaTime = new JFrame("Janela Time"); 
 		janelaTime.setResizable(false); 
 		janelaTime.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		janelaTime.setSize(500, 300); 
+		janelaTime.setSize(500, 700); 
 		janelaTime.setLocation(50, 250);
 
 
@@ -92,6 +97,7 @@ public class JanelaTime {
         modelJanelaTime.setColumnIdentifiers(colunas);
         tableJanelaTime.setRowHeight(20);
         
+        
         TableColumnModel columnModelJanelaTime = tableJanelaTime.getColumnModel();
         columnModelJanelaTime.getColumn(0).setPreferredWidth(10);
         columnModelJanelaTime.getColumn(1).setPreferredWidth(150);
@@ -117,6 +123,51 @@ public class JanelaTime {
 		
 		atualizarComboboxEstados();
 		
+		janelaTime.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				botaoLimpar.doClick();
+				modelJanelaTime.setRowCount(0);
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		botaoConsultar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -137,6 +188,8 @@ public class JanelaTime {
 						}
 						jTextCidade.setText(time.getCidade());
 						comboEstados.setSelectedItem(time.getEstado());
+						atualizarListaJogadores(time);
+						
 					}
 					botaoGravar.setEnabled(true);
 					botaoDeletar.setEnabled(true);
@@ -249,4 +302,19 @@ public class JanelaTime {
 		}
         
     }
+	
+	public static void atualizarListaJogadores(Time time) {
+		modelJanelaTime.setRowCount(0);
+		try {
+			SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
+			List<Jogador> jogadoresDoTime = Jogador.obterListaDeJogadoresDeTime(time);
+			for(Jogador j:jogadoresDoTime) {
+				Object[] linha = {j.getId(), j.getNome(), formatoData.format(j.getNascimento())};
+				modelJanelaTime.addRow(linha);
+			}
+			
+		}catch (Exception e) {
+			System.out.println("Erro ao consultar os times: " + e.toString());
+		}
+	}
 }

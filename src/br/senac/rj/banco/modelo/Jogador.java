@@ -5,7 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+
 
 public class Jogador {
 	
@@ -66,14 +70,14 @@ public class Jogador {
 			String sql = "INSERT INTO jogador (nome, nascimento, id_time) VALUES (?, ?, ?);";
 			// Prepara a consulta
 			PreparedStatement ps = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			// Define os parâmetros da consulta
+			// Define os parï¿½metros da consulta
 			
 			ps.setString(1, nome);
 			ps.setDate(2,  new java.sql.Date(nascimento.getTime()));
 			ps.setInt(3, time.getId());
 			int totalRegistrosAfetados = ps.executeUpdate();
 			if (totalRegistrosAfetados == 0) {
-				System.out.println("Não foi feito o cadastro!");
+				System.out.println("Nï¿½o foi feito o cadastro!");
 				return false;
 			}
 			System.out.println("Cadastro realizado!");
@@ -93,13 +97,13 @@ public class Jogador {
 			String sql = "INSERT INTO jogador (nome, nascimento) VALUES (?, ?);";
 			// Prepara a consulta
 			PreparedStatement ps = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			// Define os parâmetros da consulta
+			// Define os parï¿½metros da consulta
 			
 			ps.setString(1, nome);
 			ps.setDate(2,  new java.sql.Date(nascimento.getTime()));
 			int totalRegistrosAfetados = ps.executeUpdate();
 			if (totalRegistrosAfetados == 0) {
-				System.out.println("Não foi feito o cadastro!");
+				System.out.println("Nï¿½o foi feito o cadastro!");
 				return false;
 			}
 			System.out.println("Cadastro realizado de jogador sem time!");
@@ -113,7 +117,7 @@ public class Jogador {
 	}
 	
 	public boolean consultarJogador(int id) {
-		// Define a conexão
+		// Define a conexï¿½o
 		Connection conexao = null;
 		try {
 			conexao = Conexao.conectaBanco();
@@ -121,13 +125,13 @@ public class Jogador {
 			String sql = "select j.id, j.nome, j.nascimento, t.id, t.nome, t.tecnico, t.estado, t.cidade from jogador j LEFT JOIN time t ON j.id_time = t.id where j.id=? ";
 			// Prepara a consulta
 			PreparedStatement ps = conexao.prepareStatement(sql);
-			// Define os parâmetros da consulta
+			// Define os parï¿½metros da consulta
 			ps.setInt(1, id);
 			// Executa a consulta, resultando em um objeto da classe ResultSet
 			ResultSet rs = ps.executeQuery();
-			if (!rs.isBeforeFirst()) { // Verifica se não está antes do primeiro registro
-				System.out.println("Jogador não cadastrado!");
-				return false; // Estudante não cadastrado não cadastrada
+			if (!rs.isBeforeFirst()) { // Verifica se nï¿½o estï¿½ antes do primeiro registro
+				System.out.println("Jogador nï¿½o cadastrado!");
+				return false; // Estudante nï¿½o cadastrado nï¿½o cadastrada
 			} else {
 	            // Efetua a leitura do registro da tabela
 	            while (rs.next()) {
@@ -137,10 +141,10 @@ public class Jogador {
 
 	                int idTime = rs.getInt("t.id");
 	                if (rs.wasNull()) {
-	                    // time é nulo
+	                    // time ï¿½ nulo
 	                    this.time = null;
 	                } else {
-	                    // time não é nulo
+	                    // time nï¿½o ï¿½ nulo
 	                    String nomeTime = rs.getString("t.nome");
 	                    String nomeTecnico = rs.getString("t.tecnico");
 	                    String estadoTime = rs.getString("t.estado");
@@ -165,22 +169,22 @@ public class Jogador {
 		else {
 			Connection conexao = null;
 			try {
-				// Define a conexão
+				// Define a conexï¿½o
 				conexao = Conexao.conectaBanco();
 				// Define a consulta
 				String sql = "UPDATE jogador set nome=?, nascimento=?, id_time=? where id=?";
 				// Prepara a consulta
 				PreparedStatement ps = conexao.prepareStatement(sql);
-				// Define os parâmetros da atualização
+				// Define os parï¿½metros da atualizaï¿½ï¿½o
 				ps.setString(1, nome);
 				ps.setDate(2,  new java.sql.Date(nascimento.getTime()));
 				ps.setInt(3, time.getId());
 				ps.setInt(4, id);
 				int totalRegistrosAfetados = ps.executeUpdate();
 				if (totalRegistrosAfetados == 0)
-					System.out.println("Não foi feita a atualização!");
+					System.out.println("Nï¿½o foi feita a atualizaï¿½ï¿½o!");
 				else
-					System.out.println("Atualização realizada!");
+					System.out.println("Atualizaï¿½ï¿½o realizada!");
 				return true;
 			} catch (SQLException erro) {
 				System.out.println("Erro ao atualizar o cadastro do jogador: " + erro.toString());
@@ -197,21 +201,21 @@ public class Jogador {
 		else {
 			Connection conexao = null;
 			try {
-				// Define a conexão
+				// Define a conexï¿½o
 				conexao = Conexao.conectaBanco();
 				// Define a consulta
 				String sql = "UPDATE jogador set nome=?, nascimento=?, id_time=null where id=?";
 				// Prepara a consulta
 				PreparedStatement ps = conexao.prepareStatement(sql);
-				// Define os parâmetros da atualização
+				// Define os parï¿½metros da atualizaï¿½ï¿½o
 				ps.setString(1, nome);
 				ps.setDate(2,  new java.sql.Date(nascimento.getTime()));
 				ps.setInt(3, id);
 				int totalRegistrosAfetados = ps.executeUpdate();
 				if (totalRegistrosAfetados == 0)
-					System.out.println("Não foi feita a atualização!");
+					System.out.println("Nï¿½o foi feita a atualizaï¿½ï¿½o!");
 				else
-					System.out.println("Atualização realizada!");
+					System.out.println("Atualizaï¿½ï¿½o realizada!");
 				return true;
 			} catch (SQLException erro) {
 				System.out.println("Erro ao atualizar o cadastro do jogador: " + erro.toString());
@@ -223,7 +227,7 @@ public class Jogador {
 	}
 	
 	public boolean deletarJogador(int id) {
-		// Define a conexão
+		// Define a conexï¿½o
 		Connection conexao = null;
 		try {
 			conexao = Conexao.conectaBanco();
@@ -231,13 +235,13 @@ public class Jogador {
 			String sql = "DELETE from jogador where id=?";
 			// Prepara a consulta
 			PreparedStatement ps = conexao.prepareStatement(sql);
-			// Define os parâmetros da consulta
+			// Define os parï¿½metros da consulta
 			ps.setInt(1, id);
 			int totalRegistrosAfetados = ps.executeUpdate();
 			if (totalRegistrosAfetados == 0)
-				System.out.println("Não foi feita a exclusão do jogador!");
+				System.out.println("Nï¿½o foi feita a exclusï¿½o do jogador!");
 			else
-				System.out.println("Exclusão realizada!");
+				System.out.println("Exclusï¿½o realizada!");
 				return true;
 		} catch (SQLException erro) {
 			System.out.println("Erro ao deletar o jogador: " + erro.toString());
@@ -247,7 +251,45 @@ public class Jogador {
 		}
 	}
 	
-	
+	public static List<Jogador> obterListaDeJogadoresDeTime(Time time){
+		List<Jogador> jogadoresDoTime = new ArrayList<>();
+		Connection conexao = null;
+		try {
+			conexao = Conexao.conectaBanco();
+			String sql = "select j.id, j.nome, j.nascimento, t.id, t.nome, t.tecnico, t.estado, t.cidade from jogador j LEFT JOIN time t ON j.id_time = t.id where id_time=?";
+			PreparedStatement ps = conexao.prepareStatement(sql);
+			ps.setInt(1, time.getId());
+			ResultSet rs = ps.executeQuery();
+			if(!rs.isBeforeFirst()) {
+				System.out.println("Nao foi encontrado jogadores");
+				return null;
+			}else {
+				while(rs.next()) {
+
+					int id = rs.getInt("j.id");
+					String nome = rs.getString("j.nome");
+					Date nascimento = rs.getDate("j.nascimento");
+					
+					int idTime = rs.getInt("t.id");
+				    String nomeTime = rs.getString("t.nome");
+				    String nomeTecnico = rs.getString("t.tecnico");
+				    String EstadoTime = rs.getString("t.estado");
+				    String CidadeTime = rs.getString("t.cidade");
+				    Time timeDoJogador = new Time(idTime, nomeTime, nomeTecnico, EstadoTime, CidadeTime);
+				    
+				    Jogador jogador = new Jogador(id, nome, nascimento, timeDoJogador);
+				    jogadoresDoTime.add(jogador);
+					
+				}
+				return jogadoresDoTime;
+			}
+		} catch (SQLException e) {
+			System.out.println("Erro ao consultar jogadores: " + e.toString());
+            return null;
+		}finally {
+			Conexao.fechaConexao(conexao);
+		}
+	}
 	
 
 }
