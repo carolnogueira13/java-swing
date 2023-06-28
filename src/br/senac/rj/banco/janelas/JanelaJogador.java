@@ -24,15 +24,22 @@ import javax.swing.text.MaskFormatter;
 
 import br.senac.rj.banco.modelo.Jogador;
 import br.senac.rj.banco.modelo.Time;
-
+/**
+ * A classe JanelaJogador representa a janela de atualizaÃ§Ã£o de um jogador
+ * 
+ */
 public class JanelaJogador {
 	
-	private static JComboBox<Time> comboTimes;
+	private static JComboBox<Time> comboTimes; // Selecionar um time
+	/**
+	 * Cria e retorna a instÃ¢ncia de JFrame da janela de atualizaÃ§Ã£o do jogador
+	 * @return O JFrame da janela de atualizaÃ§Ã£o do jogador
+	 */
 	
 	public static JFrame criarJanelaJogador() {
 		// Define a janela
-		JFrame janelaJogador = new JFrame("Atualização do jogador"); // Janela Normal
-		janelaJogador.setResizable(false); // A janela não poderá ter o tamanho ajustado
+		JFrame janelaJogador = new JFrame("Atualizaï¿½ï¿½o do jogador"); // Janela Normal
+		janelaJogador.setResizable(false); // A janela nï¿½o poderï¿½ ter o tamanho ajustado
 		janelaJogador.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		janelaJogador.setSize(500, 300); // Define tamanho da janela
 		janelaJogador.setLocation(50, 250);
@@ -69,7 +76,7 @@ public class JanelaJogador {
 		JTextField jTextId = new JTextField();
 		JTextField jTextNome = new JTextField();
 		
-		// Define se os campos estão habilitados ou não no início
+		// Define se os campos estï¿½o habilitados ou nï¿½o no inï¿½cio
 		jTextId.setEditable(true);
 		jTextNome.setEnabled(false);
 		jFormattedTextNascimento.setEnabled(false);
@@ -79,7 +86,7 @@ public class JanelaJogador {
 		jTextNome.setBounds(180, 80, 150, 20);
 		
 		
-		// Adiciona os rótulos e os input box na janela
+		// Adiciona os rï¿½tulos e os input box na janela
 		janelaJogador.add(labelId);
 		janelaJogador.add(labelNome);
 		janelaJogador.add(labelNascimento);
@@ -96,7 +103,7 @@ public class JanelaJogador {
 	    janelaJogador.add(labelTime);
         janelaJogador.add(comboTimes);
         
-        // Para quando abrir o ComboBox chamar o método para atualizar o ComboBox 
+        // Para quando abrir o ComboBox chamar o mï¿½todo para atualizar o ComboBox 
         comboTimes.addPopupMenuListener(new PopupMenuListener() {
 			
 			@Override
@@ -121,7 +128,7 @@ public class JanelaJogador {
 			
 
 		
-		// Define botões e a localização deles na janela
+		// Define botï¿½es e a localizaï¿½ï¿½o deles na janela
 		JButton botaoConsultar = new JButton("Consultar");
 		botaoConsultar.setBounds(230, 40, 100, 20);
 		janelaJogador.add(botaoConsultar);
@@ -143,7 +150,7 @@ public class JanelaJogador {
 		
 		final JFormattedTextField jFormattedTextNascimentoFinal = jFormattedTextNascimento;
 		
-		// Adicionou um Listener na janela, nesse caso para quando estiver fechando simular um clique no botão limpar para limpar a janela
+		// Adicionou um Listener na janela, nesse caso para quando estiver fechando simular um clique no botï¿½o limpar para limpar a janela
 		janelaJogador.addWindowListener(new WindowListener() {
 			
 			@Override
@@ -190,7 +197,7 @@ public class JanelaJogador {
 		});
 		
 		
-		// Define ações dos botões
+		// Define aï¿½ï¿½es dos botï¿½es
 		botaoConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -199,7 +206,7 @@ public class JanelaJogador {
 					botaoDeletar.setEnabled(true);
 					Time time;
 					if (!jogador.consultarJogador(id)) {
-						JOptionPane.showMessageDialog(janelaJogador, "Jogador não encontrado!");
+						JOptionPane.showMessageDialog(janelaJogador, "Jogador nï¿½o encontrado!");
 						jTextNome.setText("");
 						jFormattedTextNascimentoFinal.setText("");
 						time = null;
@@ -231,9 +238,19 @@ public class JanelaJogador {
 		
 		
 		botaoGravar.addActionListener(new ActionListener() {
+			/**
+		     * Realiza a aÃ§Ã£o quando o evento actionPerformed Ã© acionado.
+		     * Exibe uma caixa de diÃ¡logo de confirmaÃ§Ã£o para atualizaÃ§Ã£o.
+		     * Se a resposta for afirmativa, obtÃ©m os valores dos campos nome e data de nascimento,
+		     * converte a data para o formato desejado e obtÃ©m o time selecionado no combobox.
+		     * Realiza as verificaÃ§Ãµes e chama os mÃ©todos apropriados do objeto jogador para cada caso,
+		     * exibindo mensagens de sucesso ou erro correspondentes.
+		     * Limpa os campos e atualiza a exibiÃ§Ã£o conforme necessÃ¡rio.
+		     * @param e O evento ActionEvent acionado.
+		     */
 			public void actionPerformed(ActionEvent e) {
 
-				int resposta = JOptionPane.showConfirmDialog(janelaJogador, "Deseja atualizar?", "Confirmação",
+				int resposta = JOptionPane.showConfirmDialog(janelaJogador, "Deseja atualizar?", "Confirmaï¿½ï¿½o",
 						JOptionPane.YES_NO_OPTION);
 				if (resposta == JOptionPane.YES_OPTION) {
 					String nome = jTextNome.getText().trim();
@@ -254,33 +271,33 @@ public class JanelaJogador {
 						    if (time == null) {
 						        if (!jogador.consultarJogador(id)) {
 						            if (!jogador.cadastrarJogador(nome, data)) {
-						                JOptionPane.showMessageDialog(janelaJogador, "Erro na inclusão do jogador!");
+						                JOptionPane.showMessageDialog(janelaJogador, "Erro na inclusï¿½o do jogador!");
 						            } else {
-						                JOptionPane.showMessageDialog(janelaJogador, "Inclusão realizada para jogador!");
+						                JOptionPane.showMessageDialog(janelaJogador, "Inclusï¿½o realizada para jogador!");
 						                botaoLimpar.doClick();
 						            }
 						        } else {
 						            if (!jogador.atualizaJogador(nome, data)) {
-						                JOptionPane.showMessageDialog(janelaJogador, "Erro na atualização do jogador!");
+						                JOptionPane.showMessageDialog(janelaJogador, "Erro na atualizaï¿½ï¿½o do jogador!");
 						            } else {
-						                JOptionPane.showMessageDialog(janelaJogador, "Alteração realizada para jogador!");
+						                JOptionPane.showMessageDialog(janelaJogador, "Alteraï¿½ï¿½o realizada para jogador!");
 						                botaoLimpar.doClick();
 						            }
 						        }
 						    } else {
-						        // time não é nulo
+						        // time nï¿½o ï¿½ nulo
 						        if (!jogador.consultarJogador(id)) {
 						            if (!jogador.cadastrarJogador(nome, data, time))
-						                JOptionPane.showMessageDialog(janelaJogador, "Erro na inclusão do jogador!");
+						                JOptionPane.showMessageDialog(janelaJogador, "Erro na inclusï¿½o do jogador!");
 						            else {
-						                JOptionPane.showMessageDialog(janelaJogador, "Inclusão realizada!");
+						                JOptionPane.showMessageDialog(janelaJogador, "Inclusï¿½o realizada!");
 						                botaoLimpar.doClick();
 						            }
 						        } else {
 						            if (!jogador.atualizaJogador(nome, data, time))
-						                JOptionPane.showMessageDialog(janelaJogador, "Erro na atualização do jogador!");
+						                JOptionPane.showMessageDialog(janelaJogador, "Erro na atualizaï¿½ï¿½o do jogador!");
 						            else {
-						                JOptionPane.showMessageDialog(janelaJogador, "Alteração realizada!");
+						                JOptionPane.showMessageDialog(janelaJogador, "Alteraï¿½ï¿½o realizada!");
 						                botaoLimpar.doClick();
 						            }
 						        }
@@ -300,18 +317,18 @@ public class JanelaJogador {
 		botaoDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int resposta = JOptionPane.showConfirmDialog(janelaJogador, "Deseja deletar?", "Confirmação",
+				int resposta = JOptionPane.showConfirmDialog(janelaJogador, "Deseja deletar?", "Confirmaï¿½ï¿½o",
 						JOptionPane.YES_NO_OPTION);
 				if (resposta == JOptionPane.YES_OPTION) {
 					int id = Integer.parseInt(jTextId.getText());
 					if (!jogador.consultarJogador(id)) {
-						JOptionPane.showMessageDialog(janelaJogador, "Impossivel excluir jogador não cadastrado!");
+						JOptionPane.showMessageDialog(janelaJogador, "Impossivel excluir jogador nï¿½o cadastrado!");
 					} else {
 						id = jogador.getId();
 						if (!jogador.deletarJogador(id))
 							JOptionPane.showMessageDialog(janelaJogador, "Erro ao excluir o jogador!");
 						else {
-							JOptionPane.showMessageDialog(janelaJogador, "Exclusão realizada!");
+							JOptionPane.showMessageDialog(janelaJogador, "Exclusï¿½o realizada!");
 							botaoLimpar.doClick();
 						}
 						}
@@ -340,7 +357,13 @@ public class JanelaJogador {
 		
 		return janelaJogador;
 	}
-	
+	/**
+     * Atualiza o combobox de times.
+     * ObtÃ©m a lista de times do banco de dados e atualiza o combobox com os times encontrados.
+     * Adiciona um item nulo como opÃ§Ã£o inicial.
+     * Realiza a validaÃ§Ã£o e repintura do combobox.
+     * Exibe mensagens de erro em caso de falha na consulta.
+     */
 	public static void atualizarComboboxTimes() {
 		try {
 			List<Time> listaTimes = Time.obterListaTimesDoBanco();
