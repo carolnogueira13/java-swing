@@ -19,13 +19,23 @@ import javax.swing.event.PopupMenuListener;
 
 import br.senac.rj.banco.modelo.Classificacao;
 import br.senac.rj.banco.modelo.Time;
-
+/**
+ * 
+ * A classe JanelaClassificacao representa a janela de atualização 
+ * da classificação de um time
+ *
+ */
 public class JanelaClassificacao {
 	
-	private static JComboBox<Time> comboTimes;
+	private static JComboBox<Time> comboTimes; // selecionar um time
+	/**
+	 * Cria e retorna a instância de JFrame da janela de atualização da classificação do time
+	 * @return O JFrame da janela de atualização da classificação do time.
+	 */
 	
 	public static JFrame criarJanelaJogador() {
 		// Define a janela
+
 		JFrame janelaClassificacao = new JFrame("Atualização da classificação do time"); // Janela Normal
 		janelaClassificacao.setResizable(false); // A janela não poderá ter o tamanho ajustado
 		janelaClassificacao.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -39,6 +49,7 @@ public class JanelaClassificacao {
 		// Define os labels dos campos
 		JLabel labelId = new JLabel("Id: ");
 		JLabel labelTime = new JLabel("Time: ");
+
 		JLabel labelPontuacao = new JLabel("Pontuação:");
 		JLabel labelVitorias = new JLabel("Vitórias:");
 		JLabel labelDerrotas = new JLabel("Derrotas:");
@@ -59,8 +70,9 @@ public class JanelaClassificacao {
 		JTextField jTextVitorias = new JTextField();
 		JTextField jTextDerrotas = new JTextField();
 		JTextField jTextEmpates = new JTextField();
-		
+
 		// Define se os campos estão habilitados ou não no início
+
 		jTextId.setEditable(false);
 		jTextPontuacao.setEnabled(false);
 		jTextVitorias.setEnabled(false);
@@ -75,7 +87,9 @@ public class JanelaClassificacao {
 		jTextEmpates.setBounds(180, 240, 50, 20);
 		
 		
+
 		// Adiciona os rótulos e os input box na janela
+
 		janelaClassificacao.add(labelId);
 		janelaClassificacao.add(labelTime);
 		janelaClassificacao.add(labelPontuacao);
@@ -98,6 +112,7 @@ public class JanelaClassificacao {
         
 
         // Para quando abrir o ComboBox chamar o método para atualizar o ComboBox 
+
         comboTimes.addPopupMenuListener(new PopupMenuListener() {
 			
 			@Override
@@ -119,8 +134,9 @@ public class JanelaClassificacao {
 			}
 		});
 		
-		
+
 		// Define botões e a localização deles na janela
+
 		JButton botaoConsultar = new JButton("Consultar");
 		botaoConsultar.setBounds(350, 80, 100, 20);
 		janelaClassificacao.add(botaoConsultar);
@@ -137,11 +153,13 @@ public class JanelaClassificacao {
 		janelaClassificacao.add(botaoDeletar);
 	
 		
+
 		// Define objeto classificação para pesquisar no banco de dados
 		Classificacao classificacao = new Classificacao();
 		
 		
 		// Adicionou um Listener na janela, nesse caso para quando estiver fechando simular um clique no botão limpar para limpar a janela 
+
 		janelaClassificacao.addWindowListener(new WindowListener() {
 			
 			@Override
@@ -187,9 +205,16 @@ public class JanelaClassificacao {
 			}
 		});
 		
-		
+
 		// Define ações dos botões
+
 		botaoConsultar.addActionListener(new ActionListener() {
+			/**
+			 * Método executado quando o botão de consultar é acionado.
+			 * Consulta a classificação de um time selecionado
+			 * e preenche os campos de texto com as informações encontradas.
+			 * @param e o evento de ação que acionou o método
+			 */
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Time time = (Time) comboTimes.getSelectedItem();
@@ -199,7 +224,9 @@ public class JanelaClassificacao {
 						JOptionPane.showMessageDialog(janelaClassificacao, "Preencha o campo faltante");
 					} else {
 							if (!classificacao.consultarClassificacao(time)) {
+
 								JOptionPane.showMessageDialog(janelaClassificacao, "Time não encontrado na classificação!");
+
 								jTextPontuacao.setText("");
 								jTextEmpates.setText("");
 								jTextDerrotas.setText("");
@@ -232,9 +259,12 @@ public class JanelaClassificacao {
 		
 		
 		botaoGravar.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 
+
 				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja atualizar?", "Confirmação",
+
 						JOptionPane.YES_NO_OPTION);
 				if (resposta == JOptionPane.YES_OPTION) {
 					int pontuacao = 3*(Integer.parseInt(jTextVitorias.getText()))+(Integer.parseInt(jTextEmpates.getText()));
@@ -248,17 +278,21 @@ public class JanelaClassificacao {
 					} else {
 						if (!classificacao.consultarClassificacao(time)) {
 							if (!classificacao.cadastrarClassificacao(time, pontuacao, vitorias, derrotas, empates))
+
 								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na inclusão da classificação!");
 							else {
 								JOptionPane.showMessageDialog(janelaClassificacao, "Inclusão realizada!");
+
 								botaoLimpar.doClick();
 							}
 								
 						} else {
 							if (!classificacao.atualizaClassificacao(time, pontuacao, vitorias, derrotas, empates))
+
 								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na atualização da classificação do time!");
 							else {
 								JOptionPane.showMessageDialog(janelaClassificacao, "Alteração realizada!");
+
 								botaoLimpar.doClick();
 							}
 						}
@@ -271,17 +305,21 @@ public class JanelaClassificacao {
 		botaoDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+
 				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja deletar?", "Confirmação",
+
 						JOptionPane.YES_NO_OPTION);
 				if (resposta == JOptionPane.YES_OPTION) {
 					Time time = (Time) comboTimes.getSelectedItem();
 					if (!classificacao.consultarClassificacao(time)) {
+
 						JOptionPane.showMessageDialog(janelaClassificacao, "Impossivel excluir time ainda não incluido na classificação!");
 					} else {
 						if (!classificacao.deletarClassificacao(time))
 							JOptionPane.showMessageDialog(janelaClassificacao, "Erro ao excluir o time da classificação!");
 						else {
 							JOptionPane.showMessageDialog(janelaClassificacao, "Exclusão realizada!");
+
 							botaoLimpar.doClick();
 						}
 						}
@@ -313,7 +351,14 @@ public class JanelaClassificacao {
 		
 		return janelaClassificacao;
 	}
-	
+	/**
+	 * Atualiza o combobox de times com a lista de times
+	 *  obtida do banco de dados.
+	 *  Remove todos os itens existentes no combobox,
+	 *  obtém a lista de times do banco de dados
+	 *  e adiciona cada time como um item no combobox
+	 *  
+	 */
 	public static void atualizarComboboxTimes() {
 		try {
 			List<Time> listaTimes = Time.obterListaTimesDoBanco();
