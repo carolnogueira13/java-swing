@@ -26,8 +26,8 @@ public class JanelaClassificacao {
 	
 	public static JFrame criarJanelaJogador() {
 		// Define a janela
-		JFrame janelaClassificacao = new JFrame("AtualizaÁ„o da classificaÁ„o do time"); // Janela Normal
-		janelaClassificacao.setResizable(false); // A janela n„o poder· ter o tamanho ajustado
+		JFrame janelaClassificacao = new JFrame("Atualiza√ß√£o da classifica√ß√£o do time"); // Janela Normal
+		janelaClassificacao.setResizable(false); // A janela n√£o poder√° ter o tamanho ajustado
 		janelaClassificacao.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		janelaClassificacao.setSize(500, 400); // Define tamanho da janela
 		janelaClassificacao.setLocation(50, 250);
@@ -39,8 +39,8 @@ public class JanelaClassificacao {
 		// Define os labels dos campos
 		JLabel labelId = new JLabel("Id: ");
 		JLabel labelTime = new JLabel("Time: ");
-		JLabel labelPontuacao = new JLabel("PontuaÁ„o:");
-		JLabel labelVitorias = new JLabel("VitÛrias:");
+		JLabel labelPontuacao = new JLabel("Pontua√ß√£o:");
+		JLabel labelVitorias = new JLabel("Vit√≥rias:");
 		JLabel labelDerrotas = new JLabel("Derrotas:");
 		JLabel labelEmpates = new JLabel("Empates:");
 		
@@ -60,7 +60,7 @@ public class JanelaClassificacao {
 		JTextField jTextDerrotas = new JTextField();
 		JTextField jTextEmpates = new JTextField();
 		
-		// Define se os campos est„o habilitados ou n„o no inÌcio
+		// Define se os campos est√£o habilitados ou n√£o no in√≠cio
 		jTextId.setEditable(false);
 		jTextPontuacao.setEnabled(false);
 		jTextVitorias.setEnabled(false);
@@ -75,7 +75,7 @@ public class JanelaClassificacao {
 		jTextEmpates.setBounds(180, 240, 50, 20);
 		
 		
-		// Adiciona os rÛtulos e os input box na janela
+		// Adiciona os r√≥tulos e os input box na janela
 		janelaClassificacao.add(labelId);
 		janelaClassificacao.add(labelTime);
 		janelaClassificacao.add(labelPontuacao);
@@ -97,7 +97,7 @@ public class JanelaClassificacao {
         janelaClassificacao.add(comboTimes);
         
 
-        // Para quando abrir o ComboBox chamar o mÈtodo para atualizar o ComboBox 
+        // Para quando abrir o ComboBox chamar o m√©todo para atualizar o ComboBox 
         comboTimes.addPopupMenuListener(new PopupMenuListener() {
 			
 			@Override
@@ -120,7 +120,7 @@ public class JanelaClassificacao {
 		});
 		
 		
-		// Define botıes e a localizaÁ„o deles na janela
+		// Define bot√µes e a localiza√ß√£o deles na janela
 		JButton botaoConsultar = new JButton("Consultar");
 		botaoConsultar.setBounds(350, 80, 100, 20);
 		janelaClassificacao.add(botaoConsultar);
@@ -137,11 +137,11 @@ public class JanelaClassificacao {
 		janelaClassificacao.add(botaoDeletar);
 	
 		
-		// Define objeto classificaÁ„o para pesquisar no banco de dados
+		// Define objeto classifica√ß√£o para pesquisar no banco de dados
 		Classificacao classificacao = new Classificacao();
 		
 		
-		// Adicionou um Listener na janela, nesse caso para quando estiver fechando simular um clique no bot„o limpar para limpar a janela 
+		// Adicionou um Listener na janela, nesse caso para quando estiver fechando simular um clique no bot√£o limpar para limpar a janela 
 		janelaClassificacao.addWindowListener(new WindowListener() {
 			
 			@Override
@@ -188,7 +188,7 @@ public class JanelaClassificacao {
 		});
 		
 		
-		// Define aÁıes dos botıes
+		// Define a√ß√µes dos bot√µes
 		botaoConsultar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -199,7 +199,7 @@ public class JanelaClassificacao {
 						JOptionPane.showMessageDialog(janelaClassificacao, "Preencha o campo faltante");
 					} else {
 							if (!classificacao.consultarClassificacao(time)) {
-								JOptionPane.showMessageDialog(janelaClassificacao, "Time n„o encontrado na classificaÁ„o!");
+								JOptionPane.showMessageDialog(janelaClassificacao, "Time n√£o encontrado na classifica√ß√£o!");
 								jTextPontuacao.setText("");
 								jTextEmpates.setText("");
 								jTextDerrotas.setText("");
@@ -215,7 +215,7 @@ public class JanelaClassificacao {
 							}
 						}
 					System.out.println(time);
-					jTextPontuacao.setEnabled(true);
+					jTextPontuacao.setEnabled(false);
 					jTextVitorias.setEnabled(true);
 					jTextDerrotas.setEnabled(true);
 					jTextEmpates.setEnabled(true);
@@ -234,10 +234,10 @@ public class JanelaClassificacao {
 		botaoGravar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja atualizar?", "ConfirmaÁ„o",
+				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja atualizar?", "Confirma√ß√£o",
 						JOptionPane.YES_NO_OPTION);
 				if (resposta == JOptionPane.YES_OPTION) {
-					int pontuacao = Integer.parseInt(jTextPontuacao.getText());
+					int pontuacao = 3*(Integer.parseInt(jTextVitorias.getText()))+(Integer.parseInt(jTextEmpates.getText()));
 					int derrotas = Integer.parseInt(jTextDerrotas.getText());
 					int vitorias = Integer.parseInt(jTextVitorias.getText());
 					int empates = Integer.parseInt(jTextEmpates.getText());
@@ -248,17 +248,17 @@ public class JanelaClassificacao {
 					} else {
 						if (!classificacao.consultarClassificacao(time)) {
 							if (!classificacao.cadastrarClassificacao(time, pontuacao, vitorias, derrotas, empates))
-								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na inclus„o da classificaÁ„o!");
+								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na inclus√£o da classifica√ß√£o!");
 							else {
-								JOptionPane.showMessageDialog(janelaClassificacao, "Inclus„o realizada!");
+								JOptionPane.showMessageDialog(janelaClassificacao, "Inclus√£o realizada!");
 								botaoLimpar.doClick();
 							}
 								
 						} else {
 							if (!classificacao.atualizaClassificacao(time, pontuacao, vitorias, derrotas, empates))
-								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na atualizaÁ„o da classificaÁ„o do time!");
+								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na atualiza√ß√£o da classifica√ß√£o do time!");
 							else {
-								JOptionPane.showMessageDialog(janelaClassificacao, "AlteraÁ„o realizada!");
+								JOptionPane.showMessageDialog(janelaClassificacao, "Altera√ß√£o realizada!");
 								botaoLimpar.doClick();
 							}
 						}
@@ -271,17 +271,17 @@ public class JanelaClassificacao {
 		botaoDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja deletar?", "ConfirmaÁ„o",
+				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja deletar?", "Confirma√ß√£o",
 						JOptionPane.YES_NO_OPTION);
 				if (resposta == JOptionPane.YES_OPTION) {
 					Time time = (Time) comboTimes.getSelectedItem();
 					if (!classificacao.consultarClassificacao(time)) {
-						JOptionPane.showMessageDialog(janelaClassificacao, "Impossivel excluir time ainda n„o incluido na classificaÁ„o!");
+						JOptionPane.showMessageDialog(janelaClassificacao, "Impossivel excluir time ainda n√£o incluido na classifica√ß√£o!");
 					} else {
 						if (!classificacao.deletarClassificacao(time))
-							JOptionPane.showMessageDialog(janelaClassificacao, "Erro ao excluir o time da classificaÁ„o!");
+							JOptionPane.showMessageDialog(janelaClassificacao, "Erro ao excluir o time da classifica√ß√£o!");
 						else {
-							JOptionPane.showMessageDialog(janelaClassificacao, "Exclus„o realizada!");
+							JOptionPane.showMessageDialog(janelaClassificacao, "Exclus√£o realizada!");
 							botaoLimpar.doClick();
 						}
 						}
