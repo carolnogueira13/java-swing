@@ -35,8 +35,9 @@ public class JanelaClassificacao {
 	
 	public static JFrame criarJanelaJogador() {
 		// Define a janela
-		JFrame janelaClassificacao = new JFrame("Atualiza��o da classifica��o do time"); // Janela Normal
-		janelaClassificacao.setResizable(false); // A janela n�o poder� ter o tamanho ajustado
+
+		JFrame janelaClassificacao = new JFrame("Atualização da classificação do time"); // Janela Normal
+		janelaClassificacao.setResizable(false); // A janela não poderá ter o tamanho ajustado
 		janelaClassificacao.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		janelaClassificacao.setSize(500, 400); // Define tamanho da janela
 		janelaClassificacao.setLocation(50, 250);
@@ -48,8 +49,9 @@ public class JanelaClassificacao {
 		// Define os labels dos campos
 		JLabel labelId = new JLabel("Id: ");
 		JLabel labelTime = new JLabel("Time: ");
-		JLabel labelPontuacao = new JLabel("Pontua��o:");
-		JLabel labelVitorias = new JLabel("Vit�rias:");
+
+		JLabel labelPontuacao = new JLabel("Pontuação:");
+		JLabel labelVitorias = new JLabel("Vitórias:");
 		JLabel labelDerrotas = new JLabel("Derrotas:");
 		JLabel labelEmpates = new JLabel("Empates:");
 		
@@ -68,8 +70,9 @@ public class JanelaClassificacao {
 		JTextField jTextVitorias = new JTextField();
 		JTextField jTextDerrotas = new JTextField();
 		JTextField jTextEmpates = new JTextField();
-		
-		// Define se os campos est�o habilitados ou n�o no in�cio
+
+		// Define se os campos estão habilitados ou não no início
+
 		jTextId.setEditable(false);
 		jTextPontuacao.setEnabled(false);
 		jTextVitorias.setEnabled(false);
@@ -84,7 +87,9 @@ public class JanelaClassificacao {
 		jTextEmpates.setBounds(180, 240, 50, 20);
 		
 		
-		// Adiciona os r�tulos e os input box na janela
+
+		// Adiciona os rótulos e os input box na janela
+
 		janelaClassificacao.add(labelId);
 		janelaClassificacao.add(labelTime);
 		janelaClassificacao.add(labelPontuacao);
@@ -106,7 +111,8 @@ public class JanelaClassificacao {
         janelaClassificacao.add(comboTimes);
         
 
-        // Para quando abrir o ComboBox chamar o m�todo para atualizar o ComboBox 
+        // Para quando abrir o ComboBox chamar o método para atualizar o ComboBox 
+
         comboTimes.addPopupMenuListener(new PopupMenuListener() {
 			
 			@Override
@@ -128,8 +134,9 @@ public class JanelaClassificacao {
 			}
 		});
 		
-		
-		// Define bot�es e a localiza��o deles na janela
+
+		// Define botões e a localização deles na janela
+
 		JButton botaoConsultar = new JButton("Consultar");
 		botaoConsultar.setBounds(350, 80, 100, 20);
 		janelaClassificacao.add(botaoConsultar);
@@ -146,11 +153,13 @@ public class JanelaClassificacao {
 		janelaClassificacao.add(botaoDeletar);
 	
 		
-		// Define objeto classifica��o para pesquisar no banco de dados
+
+		// Define objeto classificação para pesquisar no banco de dados
 		Classificacao classificacao = new Classificacao();
 		
 		
-		// Adicionou um Listener na janela, nesse caso para quando estiver fechando simular um clique no bot�o limpar para limpar a janela 
+		// Adicionou um Listener na janela, nesse caso para quando estiver fechando simular um clique no botão limpar para limpar a janela 
+
 		janelaClassificacao.addWindowListener(new WindowListener() {
 			
 			@Override
@@ -196,8 +205,9 @@ public class JanelaClassificacao {
 			}
 		});
 		
-		
-		// Define a��es dos bot�es
+
+		// Define ações dos botões
+
 		botaoConsultar.addActionListener(new ActionListener() {
 			/**
 			 * Método executado quando o botão de consultar é acionado.
@@ -214,7 +224,9 @@ public class JanelaClassificacao {
 						JOptionPane.showMessageDialog(janelaClassificacao, "Preencha o campo faltante");
 					} else {
 							if (!classificacao.consultarClassificacao(time)) {
-								JOptionPane.showMessageDialog(janelaClassificacao, "Time n�o encontrado na classifica��o!");
+
+								JOptionPane.showMessageDialog(janelaClassificacao, "Time não encontrado na classificação!");
+
 								jTextPontuacao.setText("");
 								jTextEmpates.setText("");
 								jTextDerrotas.setText("");
@@ -230,7 +242,7 @@ public class JanelaClassificacao {
 							}
 						}
 					System.out.println(time);
-					jTextPontuacao.setEnabled(true);
+					jTextPontuacao.setEnabled(false);
 					jTextVitorias.setEnabled(true);
 					jTextDerrotas.setEnabled(true);
 					jTextEmpates.setEnabled(true);
@@ -250,10 +262,12 @@ public class JanelaClassificacao {
 			
 			public void actionPerformed(ActionEvent e) {
 
-				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja atualizar?", "Confirma��o",
+
+				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja atualizar?", "Confirmação",
+
 						JOptionPane.YES_NO_OPTION);
 				if (resposta == JOptionPane.YES_OPTION) {
-					int pontuacao = Integer.parseInt(jTextPontuacao.getText());
+					int pontuacao = 3*(Integer.parseInt(jTextVitorias.getText()))+(Integer.parseInt(jTextEmpates.getText()));
 					int derrotas = Integer.parseInt(jTextDerrotas.getText());
 					int vitorias = Integer.parseInt(jTextVitorias.getText());
 					int empates = Integer.parseInt(jTextEmpates.getText());
@@ -264,17 +278,21 @@ public class JanelaClassificacao {
 					} else {
 						if (!classificacao.consultarClassificacao(time)) {
 							if (!classificacao.cadastrarClassificacao(time, pontuacao, vitorias, derrotas, empates))
-								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na inclus�o da classifica��o!");
+
+								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na inclusão da classificação!");
 							else {
-								JOptionPane.showMessageDialog(janelaClassificacao, "Inclus�o realizada!");
+								JOptionPane.showMessageDialog(janelaClassificacao, "Inclusão realizada!");
+
 								botaoLimpar.doClick();
 							}
 								
 						} else {
 							if (!classificacao.atualizaClassificacao(time, pontuacao, vitorias, derrotas, empates))
-								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na atualiza��o da classifica��o do time!");
+
+								JOptionPane.showMessageDialog(janelaClassificacao, "Erro na atualização da classificação do time!");
 							else {
-								JOptionPane.showMessageDialog(janelaClassificacao, "Altera��o realizada!");
+								JOptionPane.showMessageDialog(janelaClassificacao, "Alteração realizada!");
+
 								botaoLimpar.doClick();
 							}
 						}
@@ -287,17 +305,21 @@ public class JanelaClassificacao {
 		botaoDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja deletar?", "Confirma��o",
+
+				int resposta = JOptionPane.showConfirmDialog(janelaClassificacao, "Deseja deletar?", "Confirmação",
+
 						JOptionPane.YES_NO_OPTION);
 				if (resposta == JOptionPane.YES_OPTION) {
 					Time time = (Time) comboTimes.getSelectedItem();
 					if (!classificacao.consultarClassificacao(time)) {
-						JOptionPane.showMessageDialog(janelaClassificacao, "Impossivel excluir time ainda n�o incluido na classifica��o!");
+
+						JOptionPane.showMessageDialog(janelaClassificacao, "Impossivel excluir time ainda não incluido na classificação!");
 					} else {
 						if (!classificacao.deletarClassificacao(time))
-							JOptionPane.showMessageDialog(janelaClassificacao, "Erro ao excluir o time da classifica��o!");
+							JOptionPane.showMessageDialog(janelaClassificacao, "Erro ao excluir o time da classificação!");
 						else {
-							JOptionPane.showMessageDialog(janelaClassificacao, "Exclus�o realizada!");
+							JOptionPane.showMessageDialog(janelaClassificacao, "Exclusão realizada!");
+
 							botaoLimpar.doClick();
 						}
 						}
