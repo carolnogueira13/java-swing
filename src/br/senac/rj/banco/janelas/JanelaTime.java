@@ -1,4 +1,4 @@
-package br.senac.rj.banco.janelas;
+ package br.senac.rj.banco.janelas;
 
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -23,21 +23,28 @@ import javax.swing.table.TableColumnModel;
 
 import br.senac.rj.banco.modelo.Jogador;
 import br.senac.rj.banco.modelo.Time;
-
+/**
+ * A classe JanelaTime representa a janela de cadastro e edição de times
+ * 
+ *
+ */
 public class JanelaTime {
-	private static JComboBox<String> comboEstados;
-	private static DefaultTableModel modelJanelaTime;
-    private static JTable tableJanelaTime;
-    
+	private static JComboBox<String> comboEstados; // ComboBox para selecionar estados
+	private static DefaultTableModel modelJanelaTime; // Modelo de tabela para armazenar os dados dos times
+    private static JTable tableJanelaTime; // Tabela para exibir os times
+    /**
+     * Cria e retorna a instância de JFrame da janela de cadastro e edição de times
+     * @return O JFrame da janela de cadastro e edição de times
+     */
 	public static JFrame criarJanelaTime() {
-		
+		// Criação do JFrame
 		JFrame janelaTime = new JFrame("Janela Time"); 
 		janelaTime.setResizable(false); 
 		janelaTime.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		janelaTime.setSize(500, 700); 
 		janelaTime.setLocation(50, 250);
 
-
+		// Criação e configuração dos componentes da janela
 		Container caixa = janelaTime.getContentPane();
 		caixa.setLayout(null);
 		
@@ -175,7 +182,7 @@ public class JanelaTime {
 				try {
 					int id = Integer.parseInt(jTextId.getText());
 					if (!time.consultarTime(id)) {
-						JOptionPane.showMessageDialog(janelaTime, "Time n�o encontrado!");
+						JOptionPane.showMessageDialog(janelaTime, "Time n�o encontrado!");
 						jTextId.setText("");
 					}else {
 						jTextId.setText(String.valueOf(time.getId()));
@@ -249,7 +256,7 @@ public class JanelaTime {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int resposta = JOptionPane.showConfirmDialog(janelaTime, "Deseja realmente deletar o time?", "Confirma��o", JOptionPane.YES_NO_OPTION); 
+				int resposta = JOptionPane.showConfirmDialog(janelaTime, "Deseja realmente deletar o time?", "Confirma��o", JOptionPane.YES_NO_OPTION); 
 				if(resposta == JOptionPane.YES_OPTION) {
 					if(time.deletarTime()) {
 						JOptionPane.showMessageDialog(janelaTime,"Time deletado com sucesso");
@@ -258,7 +265,7 @@ public class JanelaTime {
 						JOptionPane.showMessageDialog(janelaTime,"Falha ao deletar time");
 					}
 				}else {
-					JOptionPane.showMessageDialog(janelaTime, "Opera��o cancelada");
+					JOptionPane.showMessageDialog(janelaTime, "Opera��o cancelada");
 				}
 			}
 		});
@@ -288,21 +295,26 @@ public class JanelaTime {
 		return janelaTime;
 		
 	}
-	
+	/**
+	 * Atualiza o ComboBox de estados com os valores das siglas dos estados
+	 */
 	public static void atualizarComboboxEstados() {
 		try {
-	        comboEstados.removeAllItems();
+	        comboEstados.removeAllItems(); // Remove todos os itens do ComboBox
 	        for (String estado : Arrays.asList(Time.siglas)) {
-	            comboEstados.addItem(estado);
+	            comboEstados.addItem(estado); // Adiciona cada sigla de estado ao ComboBox
 	        }
-	        comboEstados.revalidate();
-	        comboEstados.repaint();
+	        comboEstados.revalidate(); // Atualiza a exibição do ComboBox
+	        comboEstados.repaint(); // Redesenha o ComboBox
 		} catch (Exception e) {
 			System.out.println("Erro ao consultar os estados: " + e.toString());
 		}
         
     }
-	
+	/**
+	 * Atualiza a lista de jogadores na janela de visualização do time
+	 * @param time O objeto Time ao qual os jogadores pertencem
+	 */
 	public static void atualizarListaJogadores(Time time) {
 		modelJanelaTime.setRowCount(0);
 		try {

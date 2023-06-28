@@ -18,11 +18,19 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import br.senac.rj.banco.modelo.Jogador;
-
+/**
+ * A classe JanelaListaJogadores representa
+ * a janela de exibição da lista de jogadores
+ * 
+ *
+ */
 public class JanelaListaJogadores {
-    private static DefaultTableModel model;
-    private static JTable table;
-
+    private static DefaultTableModel model;  // Modelo de tabela para armazenar os dados dos jogadores
+    private static JTable table; // Tabela para exibir os jogadores
+/**
+ * Cria e retorna a instância de JFrame da janela de lista de jogadores
+ * @return O JFrame da janela de lista de jogadores
+ */
     public static JFrame criarJanelaListaJogadores() {
         JFrame janela = new JFrame("Lista de Jogadores");
         janela.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -57,7 +65,10 @@ public class JanelaListaJogadores {
 
         return janela;
     }
-
+    
+    /**
+     * Atualiza a lista de jogadores na tabela
+     */
     public static void atualizarListaJogadores() {
         model.setRowCount(0); // Limpa os dados existentes na tabela
         

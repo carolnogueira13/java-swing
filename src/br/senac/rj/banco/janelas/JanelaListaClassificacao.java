@@ -18,11 +18,19 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import br.senac.rj.banco.modelo.Classificacao;
-
+/**
+ * A classe JanelaListaClassificacao representa
+ * a janela de exibição da lista de classificação dos times.
+ * 
+ *
+ */
 public class JanelaListaClassificacao {
-	private static DefaultTableModel model;
-    private static JTable table;
-
+	private static DefaultTableModel model; // Modelo de tabela para armazenar os dados da classificação
+    private static JTable table; // Tabela para exibir a classificação
+/**
+ * Cria e retorna a instância de JFrame da janela de lista de classificação de times
+ * @return O JFrame da janela de lista de classificação de times
+ */
     public static JFrame criarJanelaListaClassificacoes() {
         JFrame janela = new JFrame("Lista de Classificacao de Times");
         janela.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -57,11 +65,13 @@ public class JanelaListaClassificacao {
 
         return janela;
     }
-
+    /**
+     * Atualiza a lista de classificação na tabela
+     */
     public static void atualizarListaClassificacao() {
         model.setRowCount(0); // Limpa os dados existentes na tabela
         
-        String[] colunas = {"Classificacao", "Time", "Pontua��o"};
+        String[] colunas = {"Classificacao", "Time", "Pontua��o"};
         model.setColumnIdentifiers(colunas);
         
         table.setRowHeight(20);
@@ -76,10 +86,10 @@ public class JanelaListaClassificacao {
         	int posicao = 0;
             for (Classificacao classificacao :classificacoes) {
             	posicao++;
-                Object[] linha = {posicao + " �", classificacao.getTime().getNome(), classificacao.getPontuacao()};
+                Object[] linha = {posicao + " �", classificacao.getTime().getNome(), classificacao.getPontuacao()};
                 model.addRow(linha);}
         } catch (Exception error) {
-        	System.out.println("Erro ao consultar as classifica��es dos times: " + error.toString());
+        	System.out.println("Erro ao consultar as classifica��es dos times: " + error.toString());
         }
         
     }
