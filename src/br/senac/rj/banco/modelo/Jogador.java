@@ -9,20 +9,34 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+/**
+ * 
+ * Classe que representa um jogador
+ *
+ */
 
 public class Jogador {
 	
-	private int id;
-	private String nome;
-	private Date nascimento;
+	private int id; // Indentificador do jogador
+	private String nome; // Nome do jogador
+	private Date nascimento; // Data de nascimento do jogador
+	private Time time; //Time do jogador
 	
-	private Time time;
-
+	/**
+	 * Construtor padrão da classe Jogador.
+	 */
 	
 	public Jogador() {
 		super();
 	}
+	 /**
+     * Construtor da classe Jogador que recebe os parâmetros iniciais.
+     * 
+     * @param id O identificador do jogador.
+     * @param nome O nome do jogador.
+     * @param nascimento A data de nascimento do jogador.
+     * @param time O time ao qual o jogador pertence.
+     */
 
 	public Jogador(int id, String nome, Date nascimento, Time time) {
 		this.id = id;
@@ -30,38 +44,69 @@ public class Jogador {
 		this.nascimento = nascimento;
 		this.time = time;
 	}
-
+	/**
+	 * Obtém o identificador do jogador
+	 * @return o identificador do jogador
+	 */
 	public int getId() {
 		return id;
 	}
-
+	/**
+	 * Define o identificador do jogador
+	 * @param id o identificador do jogador a ser definido
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	/**
+	 * Obtém o nome do jogador
+	 * @return o nome do jogador
+	 */
 	public String getNome() {
 		return nome;
 	}
-
+	/**
+	 * Define o nome do jogador
+	 * @param nome o nome do jogador a ser definido
+	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
+	/**
+	 * Obtém a data de nascimento do jogador
+	 * @return a data de nascimento do jogador
+	 */
 	public Date getNascimento() {
 		return nascimento;
 	}
-
+	/**
+	 * Define a data de nascimento do jogador
+	 * @param nascimento a data de nascimento do jogador a ser definida
+	 */
 	public void setNascimento(Date nascimento) {
 		this.nascimento = nascimento;
 	}
-
+	/**
+	 * Obtém o time ao qual o jogador pertence
+	 * @return o time ao qual o jogador pertence
+	 */
 	public Time getTime() {
 		return time;
 	}
-
+	/**
+	 * Define o time ao qual o jogador pertence
+	 * @param time o time ao qual o jogador pertence a ser definido
+	 */
 	public void setTime(Time time) {
 		this.time = time;
 	}
+	/**
+	 * Realiza o cadastro de um jogador com um time específico
+	 * @param nome O nome do jogador
+	 * @param nascimento A data de nascimento do jogador
+	 * @param time O time ao qual o jogador pertence
+	 * @return true se o cadastro foi realizado com sucesso, false caso contrário
+	 */
 	
 	public boolean cadastrarJogador(String nome, Date nascimento, Time time) {
 		Connection conexao = null;
@@ -115,9 +160,14 @@ public class Jogador {
 			Conexao.fechaConexao(conexao);
 		}
 	}
+	/**
+	 * Consulta um jogador pelo seu identificador
+	 * @param id O identificador do jogador a ser consultado
+	 * @return true se o jogador foi encontrado, false caso contrário
+	 */
 	
 	public boolean consultarJogador(int id) {
-		// Define a conex�o
+		// Define a conexao
 		Connection conexao = null;
 		try {
 			conexao = Conexao.conectaBanco();
@@ -129,7 +179,7 @@ public class Jogador {
 			ps.setInt(1, id);
 			// Executa a consulta, resultando em um objeto da classe ResultSet
 			ResultSet rs = ps.executeQuery();
-			if (!rs.isBeforeFirst()) { // Verifica se n�o est� antes do primeiro registro
+			if (!rs.isBeforeFirst()) { // Verifica se nao esta antes do primeiro registro
 				System.out.println("Jogador n�o cadastrado!");
 				return false; // Estudante n�o cadastrado n�o cadastrada
 			} else {
@@ -162,7 +212,13 @@ public class Jogador {
 			Conexao.fechaConexao(conexao);
 		}
 	}
-	
+	/**
+	 * Atualiza os dados de um jogador existente no banco de dados
+	 * @param nome  O novo nome do jogador
+	 * @param nascimento A nova data de nascimento do jogador
+	 * @param time O novo time ao qual o jogador pertence
+	 * @return true se a atualização foi realizada com sucesso, false caso contrário
+	 */
 	public boolean atualizaJogador(String nome, Date nascimento, Time time) {
 		if (!consultarJogador(id))
 			return false;
@@ -225,7 +281,11 @@ public class Jogador {
 			}
 		}
 	}
-	
+	/**
+	 * Deleta um jogador do banco de dados com base no seu id
+	 * @param id O ID do jogador a ser deletado
+	 * @return true se a exclusão foi realizada com sucesso, false caso contrário
+	 */
 	public boolean deletarJogador(int id) {
 		// Define a conex�o
 		Connection conexao = null;
@@ -250,7 +310,12 @@ public class Jogador {
 			Conexao.fechaConexao(conexao);
 		}
 	}
-	
+	/**
+	 * Obtém uma lista de todos os jogadores do banco de dados
+	 * @return Uma lista de objetos Jogador contendo todos os jogadores
+	 *  cadastrados no banco de dados.
+	 *  Retorna null se não houver jogadores cadastrados
+	 */
 	public static List<Jogador> obterListaJogadoresDoBanco() {
         List<Jogador> jogadores = new ArrayList<>();
 
@@ -260,8 +325,8 @@ public class Jogador {
             String sql = "select j.id, j.nome, j.nascimento, t.id, t.nome, t.tecnico, t.estado, t.cidade from jogador j LEFT JOIN time t ON j.id_time = t.id";
             PreparedStatement ps = conexao.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            if (!rs.isBeforeFirst()) { // Verifica se h� registros
-                System.out.println("N�o h� times cadastrados!");
+            if (!rs.isBeforeFirst()) { // Verifica se h� registros
+                System.out.println("N�o h� times cadastrados!");
                 return null;
             } else {
                 // Efetua a leitura dos registros da tabela
@@ -290,7 +355,12 @@ public class Jogador {
             Conexao.fechaConexao(conexao);
         }
     }
-	
+	/**
+	 * Obtém uma lista de jogadores de um determinado time
+	 * @param time O objeto Time para  obter a lista de jogadores
+	 * @return Uma lista de objetos Jogador contendo os jogadores do time especificado.
+	 * Retorna null se não houver jogadores para o time informado
+	 */
 	public static List<Jogador> obterListaDeJogadoresDeTime(Time time){
 		List<Jogador> jogadoresDoTime = new ArrayList<>();
 		Connection conexao = null;

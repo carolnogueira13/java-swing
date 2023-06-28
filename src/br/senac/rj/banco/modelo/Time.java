@@ -9,19 +9,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+/**
+ * 
+ * A classe Time representa um time de futebol
+ *
+ */
 
 public class Time {
 	
-	private int id;
-	private String nome;
-	private String tecnico;
-	private String estado;
-	private String cidade;
+	private int id; // ID do time
+	private String nome; // O nome do time
+	private String tecnico; // O nome do técnico do time
+	private String estado; // O estado onde o time está localizado
+	private String cidade; // A cidade do time
 	public static String[] siglas = {"","AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MS","MT","MG","PA","PB","PR","PE",
 							  "PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"};
-	
+	/**
+	 * Construtor padrão da classe Time
+	 */
 	public Time() {
 	}
+	/**
+
+	Construtor da classe Time que recebe os valores iniciais
+	@param id O ID do time
+	@param nome O nome do time
+	@param tecnico O nome do técnico do time
+	@param estado O estado onde o time está localizado
+	@param cidade A cidade  do time
+	*/
 
 	public Time(int id, String nome, String tecnico, String estado, String cidade) {
 		this.id = id;
@@ -30,43 +46,73 @@ public class Time {
 		this.estado = estado;
 		this.cidade = cidade;
 	}
-
+	/**
+	 * Obtém o ID do time
+	 * @return o ID do time
+	 */
 	public int getId() {
 		return id;
 	}
-
+	/**
+	 * Define o ID do time
+	 * @param id o ID do time a ser definido
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	/**
+	 * Obtém o nome do time
+	 * @return o nome do time
+	 */
 	public String getNome() {
 		return nome;
 	}
-
+	/**
+	 * Define o nome do time
+	 * @param nome o nome do time a ser definido
+	 */
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
+	/**
+	 * Obtém o nome do técnico do time
+	 * @return o nome do técnico do time
+	 */
 	public String getTecnico() {
 		return tecnico;
 	}
-
+	/**
+	 * Define o nome do técnico do time
+	 * @param tecnico o nome do técnico do time a ser definido
+	 */
 	public void setTecnico(String tecnico) {
 		this.tecnico = tecnico;
 	}
-
+	/**
+	 * Obtém o estado onde o time está localizado
+	 * @return o estado onde o time está localizado
+	 */
 	public String getEstado() {
 		return estado;
 	}
-
+	/**
+	 * Define o estado onde o time está localizado
+	 * @param estado o estado onde o time está localizado a ser definido
+	 */
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-
+	/**
+	 * Obtém a cidade do time
+	 * @return a cidade do time
+	 */
 	public String getCidade() {
 		return cidade;
 	}
-
+	/**
+	 * Define a cidade do time
+	 * @param cidade a cidade do time a ser definida
+	 */
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
@@ -93,7 +139,12 @@ public class Time {
 		return Objects.equals(cidade, other.cidade) && Objects.equals(estado, other.estado) && id == other.id
 				&& Objects.equals(nome, other.nome) && Objects.equals(tecnico, other.tecnico);
 	}
-	
+	/**
+	 * Consulta um time no banco de dados pelo seu ID
+	 * @param id O ID do time a ser consultado
+	 * @return true se o time for encontrado e os dados forem atribuídos corretamente,
+	 *  false caso contrário
+	 */
 	public boolean consultarTime(int id) {
 		Connection conexao = null;
 		try {
@@ -123,7 +174,14 @@ public class Time {
 			Conexao.fechaConexao(conexao);
 		}
 	}
-	
+/**
+ * 
+ * @param nome O nome do time a ser cadastrado
+ * @param tecnico O nome do técnico do time
+ * @param cidade A cidade do time
+ * @param estado O estado do time
+ * @return true se o cadastro for realizado com sucesso, false caso contrário
+ */
 	public boolean cadastrarTime(String nome, String tecnico, String cidade, String estado) {
 		if(!Arrays.asList(Time.siglas).contains(estado)) {
 			return false;
@@ -156,7 +214,13 @@ public class Time {
 			}
 		}
 	}
-	
+	/**
+	 * 
+	 * @param nome O nome do time a ser cadastrado
+	 * @param cidade A cidade do time
+	 * @param estado O estado do time
+	 * @return true se o cadastro for realizado com sucesso, false caso contrário
+	 */
 	public boolean cadastrarTime(String nome, String cidade, String estado) {
 		if(!Arrays.asList(Time.siglas).contains(estado)) {
 			return false;
@@ -188,7 +252,11 @@ public class Time {
 			}
 		}
 	}
-	
+	/**
+	 * Atualiza as informações do time
+	 * @return true se a atualização for realizada com sucesso,
+	 *  false caso contrário
+	 */
 	public boolean atualizarTime() {
 		Connection conexao= null;
 		try {
@@ -215,6 +283,10 @@ public class Time {
 			Conexao.fechaConexao(conexao);
 		}
 	}
+	/**
+	 * Deleta o time 
+	 * @return true se o time for deletado com sucesso, false caso contrário
+	 */
 	public boolean deletarTime() {
 		Connection conexao = null;
 		
@@ -239,7 +311,10 @@ public class Time {
 		}
 		
 	}
-	
+	/**
+	 * Obtém a lista de todos os times cadastrados no banco de dados
+	 * @return a lista de times cadastrados, ou null se não houver times cadastrados
+	 */
 	public static List<Time> obterListaTimesDoBanco() {
         List<Time> times = new ArrayList<>();
 
@@ -249,8 +324,8 @@ public class Time {
             String sql = "select * from time";
             PreparedStatement ps = conexao.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            if (!rs.isBeforeFirst()) { // Verifica se h� registros
-                System.out.println("N�o h� times cadastrados!");
+            if (!rs.isBeforeFirst()) { // Verifica se ha registros
+                System.out.println("N�o h� times cadastrados!");
                 return null;
             } else {
                 // Efetua a leitura dos registros da tabela
