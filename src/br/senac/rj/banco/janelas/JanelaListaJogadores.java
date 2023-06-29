@@ -90,7 +90,7 @@ public class JanelaListaJogadores {
                 Object[] linha = {j.getId(), j.getNome(), formatoData.format(j.getNascimento()), j.getTime().getNome()};
                 model.addRow(linha);}
         } catch (Exception error) {
-        	System.out.println("Erro ao consultar os times: " + error.toString());
+        	System.out.println("Erro ao consultar os jogadores: " + error.toString());
         }
         
     }

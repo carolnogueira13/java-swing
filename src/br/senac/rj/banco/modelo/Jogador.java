@@ -326,7 +326,7 @@ public class Jogador {
             PreparedStatement ps = conexao.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             if (!rs.isBeforeFirst()) { // Verifica se ha registros
-                System.out.println("N�o h� times cadastrados!");
+                System.out.println("Nao ha jogares cadastrados!");
                 return null;
             } else {
                 // Efetua a leitura dos registros da tabela
