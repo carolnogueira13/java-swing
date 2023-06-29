@@ -20,7 +20,7 @@ import javax.swing.table.TableColumnModel;
 import br.senac.rj.banco.modelo.Classificacao;
 /**
  * A classe JanelaListaClassificacao representa
- * a janela de exibição da lista de classificacao dos times.
+ * a janela de exibicao da lista de classificacao dos times.
  * 
  *
  */
