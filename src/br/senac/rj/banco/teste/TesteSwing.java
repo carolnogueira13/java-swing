@@ -17,7 +17,7 @@ import br.senac.rj.banco.janelas.JanelaListaTimes;
 import br.senac.rj.banco.janelas.JanelaTime;
 /**
  * 
- * Classe de teste para a interface grÃ¡fica Swing
+ * Classe de teste para a interface grafica Swing
  *
  */
 public class TesteSwing {
@@ -26,7 +26,7 @@ public class TesteSwing {
 		JFrame.setDefaultLookAndFeelDecorated(true); 
 		JFrame janelaPrincipal = new JFrame("Campeonato"); // Janela Normal
 		janelaPrincipal.setTitle("Campeonato");
-		janelaPrincipal.setResizable(false); // A janela nï¿½o poderï¿½ ter o tamanho ajustado
+		janelaPrincipal.setResizable(false);
 		janelaPrincipal.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		janelaPrincipal.setSize(400, 300); // Define tamanho da janela
 		janelaPrincipal.setLocationRelativeTo(null);
@@ -40,7 +40,7 @@ public class TesteSwing {
 		// Define e adiciona menu na barra de menu
 		JMenu menuTime = new JMenu("Times");
 		JMenu menuJogador = new JMenu("Jogadores");
-		JMenu menuClassificacao = new JMenu("Classificaï¿½ï¿½o");
+		JMenu menuClassificacao = new JMenu("Classificação");
 		menuBar.add(menuTime);
 		menuBar.add(menuJogador);
 		menuBar.add(menuClassificacao);
@@ -62,7 +62,7 @@ public class TesteSwing {
 		menuClassificacao.add(menuItemListaClassificacao);
 		
 		
-		// Criar a janela de atualizaï¿½ï¿½o de jogadores
+		// Criar a janela de atualizacao de jogadores
 		JFrame janelaJogador = JanelaJogador.criarJanelaJogador();
 		JFrame janelaListaJogadores = JanelaListaJogadores.criarJanelaListaJogadores();
 		
@@ -74,7 +74,7 @@ public class TesteSwing {
 		JFrame janelaListaClassificacao = JanelaListaClassificacao.criarJanelaListaClassificacoes();
 		
 		
-		// Adiciona aï¿½ï¿½o para o item do menu
+		// Adiciona acao para o item do menu
 		menuItemAtualizarJogador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				janelaJogador.setVisible(true);
@@ -83,7 +83,7 @@ public class TesteSwing {
 		
 		
 		
-		// Adiciona aï¿½ï¿½o para o item do menu
+		// Adiciona acao para o item do menu
 		menuItemListaJogadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				   JanelaListaJogadores.atualizarListaJogadores();
@@ -92,7 +92,7 @@ public class TesteSwing {
 			
 		});
 		
-		// Adiciona aï¿½ï¿½o para o item do menu
+		// Adiciona acao para o item do menu
 		menuItemListaTimes.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent arg0) {
 		        JanelaListaTimes.atualizarListaTimes();
@@ -126,7 +126,7 @@ public class TesteSwing {
 		janelaPrincipal.setVisible(true);
 	}
 	/**
-	 * MÃ©todo principal para iniciar o programa de teste
+	 * Metodo principal para iniciar o programa de teste
 	 * @param args os argumentos de linha de comando
 	 */
 

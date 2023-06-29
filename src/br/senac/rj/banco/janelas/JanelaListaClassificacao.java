@@ -20,19 +20,19 @@ import javax.swing.table.TableColumnModel;
 import br.senac.rj.banco.modelo.Classificacao;
 /**
  * A classe JanelaListaClassificacao representa
- * a janela de exibição da lista de classificação dos times.
+ * a janela de exibição da lista de classificacao dos times.
  * 
  *
  */
 public class JanelaListaClassificacao {
-	private static DefaultTableModel model; // Modelo de tabela para armazenar os dados da classificação
-    private static JTable table; // Tabela para exibir a classificação
+	private static DefaultTableModel model; // Modelo de tabela para armazenar os dados da classificacao
+    private static JTable table; // Tabela para exibir a classificacao
 /**
- * Cria e retorna a instância de JFrame da janela de lista de classificação de times
- * @return O JFrame da janela de lista de classificação de times
+ * Cria e retorna a instancia de JFrame da janela de lista de classificacao de times
+ * @return O JFrame da janela de lista de classificacao de times
  */
     public static JFrame criarJanelaListaClassificacoes() {
-        JFrame janela = new JFrame("Lista de Classificacao de Times");
+        JFrame janela = new JFrame("Lista de Classifica��o de Times");
         janela.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         janela.setSize(500, 400);
         janela.setLocation(1000, 250);
@@ -66,12 +66,12 @@ public class JanelaListaClassificacao {
         return janela;
     }
     /**
-     * Atualiza a lista de classificação na tabela
+     * Atualiza a lista de classificacao na tabela
      */
     public static void atualizarListaClassificacao() {
         model.setRowCount(0); // Limpa os dados existentes na tabela
         
-        String[] colunas = {"Classificacao", "Time", "Pontua��o"};
+        String[] colunas = {"Classifica��o", "Time", "Pontua��o"};
         model.setColumnIdentifiers(colunas);
         
         table.setRowHeight(20);
@@ -86,10 +86,10 @@ public class JanelaListaClassificacao {
         	int posicao = 0;
             for (Classificacao classificacao :classificacoes) {
             	posicao++;
-                Object[] linha = {posicao + " �", classificacao.getTime().getNome(), classificacao.getPontuacao()};
+                Object[] linha = {posicao + "�", classificacao.getTime().getNome(), classificacao.getPontuacao()};
                 model.addRow(linha);}
         } catch (Exception error) {
-        	System.out.println("Erro ao consultar as classifica��es dos times: " + error.toString());
+        	System.out.println("Erro ao consultar as classificacoes dos times: " + error.toString());
         }
         
     }

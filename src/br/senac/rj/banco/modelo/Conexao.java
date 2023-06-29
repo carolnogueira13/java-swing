@@ -4,13 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 /**
- * Classe responsável por estabelecer a conexão com o banco de dados
+ * Classe responsavel por estabelecer a conexao com o banco de dados
  */
 public class Conexao {
 	/**
-     * Método utilizado para estabelecer a conexão com o banco de dados
+     * Metodo utilizado para estabelecer a conexao com o banco de dados
      *
-     * @return A conexão estabelecida com o banco de dados
+     * @return A conexao estabelecida com o banco de dados
      */
 	public static Connection conectaBanco() {
 		Connection conexao = null;
@@ -21,23 +21,23 @@ public class Conexao {
 			String password = ""; // senha do banco
 			conexao = DriverManager.getConnection(url, user, password);
 		} catch (ClassNotFoundException erro) {
-			System.out.println("Driver n�o encontrado: " + erro);
+			System.out.println("Driver nao encontrado: " + erro);
 		} catch (SQLException erro) {
-			System.out.println("Erro de conex�o ao banco de dados: " + erro.toString());
+			System.out.println("Erro de conexao ao banco de dados: " + erro.toString());
 		} catch (Exception erro) {
-			System.out.println("Erro n�o identificado: " + erro.toString());
+			System.out.println("Erro nao identificado: " + erro.toString());
 		} 
 		return conexao;
 	}
 	/**
-	 * Método utilizado para fechar a conexão com o banco de dados
-	 * @param conexao A conexão a ser fechada
+	 * Metodo utilizado para fechar a conexao com o banco de dados
+	 * @param conexao A conexao a ser fechada
 	 */
 	public static void fechaConexao(Connection conexao) {
 		try {
 			conexao.close();
 		} catch (Exception erro) {
-			System.out.println("Erro ao fechar a conex�o: " + erro.toString());
+			System.out.println("Erro ao fechar a conexao: " + erro.toString());
 		}
 	}
 }

@@ -23,14 +23,14 @@ public class Jogador {
 	private Time time; //Time do jogador
 	
 	/**
-	 * Construtor padrão da classe Jogador.
+	 * Construtor padrao da classe Jogador.
 	 */
 	
 	public Jogador() {
 		super();
 	}
 	 /**
-     * Construtor da classe Jogador que recebe os parâmetros iniciais.
+     * Construtor da classe Jogador que recebe os parametros iniciais.
      * 
      * @param id O identificador do jogador.
      * @param nome O nome do jogador.
@@ -45,7 +45,7 @@ public class Jogador {
 		this.time = time;
 	}
 	/**
-	 * Obtém o identificador do jogador
+	 * Obtem o identificador do jogador
 	 * @return o identificador do jogador
 	 */
 	public int getId() {
@@ -59,7 +59,7 @@ public class Jogador {
 		this.id = id;
 	}
 	/**
-	 * Obtém o nome do jogador
+	 * Obtem o nome do jogador
 	 * @return o nome do jogador
 	 */
 	public String getNome() {
@@ -73,7 +73,7 @@ public class Jogador {
 		this.nome = nome;
 	}
 	/**
-	 * Obtém a data de nascimento do jogador
+	 * Obtem a data de nascimento do jogador
 	 * @return a data de nascimento do jogador
 	 */
 	public Date getNascimento() {
@@ -87,7 +87,7 @@ public class Jogador {
 		this.nascimento = nascimento;
 	}
 	/**
-	 * Obtém o time ao qual o jogador pertence
+	 * Obtem o time ao qual o jogador pertence
 	 * @return o time ao qual o jogador pertence
 	 */
 	public Time getTime() {
@@ -101,11 +101,11 @@ public class Jogador {
 		this.time = time;
 	}
 	/**
-	 * Realiza o cadastro de um jogador com um time específico
+	 * Realiza o cadastro de um jogador com um time especifico
 	 * @param nome O nome do jogador
 	 * @param nascimento A data de nascimento do jogador
 	 * @param time O time ao qual o jogador pertence
-	 * @return true se o cadastro foi realizado com sucesso, false caso contrário
+	 * @return true se o cadastro foi realizado com sucesso, false caso contrario
 	 */
 	
 	public boolean cadastrarJogador(String nome, Date nascimento, Time time) {
@@ -115,14 +115,14 @@ public class Jogador {
 			String sql = "INSERT INTO jogador (nome, nascimento, id_time) VALUES (?, ?, ?);";
 			// Prepara a consulta
 			PreparedStatement ps = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			// Define os par�metros da consulta
+			// Define os parametros da consulta
 			
 			ps.setString(1, nome);
 			ps.setDate(2,  new java.sql.Date(nascimento.getTime()));
 			ps.setInt(3, time.getId());
 			int totalRegistrosAfetados = ps.executeUpdate();
 			if (totalRegistrosAfetados == 0) {
-				System.out.println("N�o foi feito o cadastro!");
+				System.out.println("Nao foi feito o cadastro!");
 				return false;
 			}
 			System.out.println("Cadastro realizado!");
@@ -142,13 +142,13 @@ public class Jogador {
 			String sql = "INSERT INTO jogador (nome, nascimento) VALUES (?, ?);";
 			// Prepara a consulta
 			PreparedStatement ps = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			// Define os par�metros da consulta
+			// Define os parametros da consulta
 			
 			ps.setString(1, nome);
 			ps.setDate(2,  new java.sql.Date(nascimento.getTime()));
 			int totalRegistrosAfetados = ps.executeUpdate();
 			if (totalRegistrosAfetados == 0) {
-				System.out.println("N�o foi feito o cadastro!");
+				System.out.println("Nao foi feito o cadastro!");
 				return false;
 			}
 			System.out.println("Cadastro realizado de jogador sem time!");
@@ -163,7 +163,7 @@ public class Jogador {
 	/**
 	 * Consulta um jogador pelo seu identificador
 	 * @param id O identificador do jogador a ser consultado
-	 * @return true se o jogador foi encontrado, false caso contrário
+	 * @return true se o jogador foi encontrado, false caso contrario
 	 */
 	
 	public boolean consultarJogador(int id) {
@@ -175,13 +175,13 @@ public class Jogador {
 			String sql = "select j.id, j.nome, j.nascimento, t.id, t.nome, t.tecnico, t.estado, t.cidade from jogador j LEFT JOIN time t ON j.id_time = t.id where j.id=? ";
 			// Prepara a consulta
 			PreparedStatement ps = conexao.prepareStatement(sql);
-			// Define os par�metros da consulta
+			// Define os parametros da consulta
 			ps.setInt(1, id);
 			// Executa a consulta, resultando em um objeto da classe ResultSet
 			ResultSet rs = ps.executeQuery();
 			if (!rs.isBeforeFirst()) { // Verifica se nao esta antes do primeiro registro
-				System.out.println("Jogador n�o cadastrado!");
-				return false; // Estudante n�o cadastrado n�o cadastrada
+				System.out.println("Jogador nao cadastrado!");
+				return false; 
 			} else {
 	            // Efetua a leitura do registro da tabela
 	            while (rs.next()) {
@@ -191,10 +191,10 @@ public class Jogador {
 
 	                int idTime = rs.getInt("t.id");
 	                if (rs.wasNull()) {
-	                    // time � nulo
+	                    // time nulo
 	                    this.time = null;
 	                } else {
-	                    // time n�o � nulo
+	                    // time nao nulo
 	                    String nomeTime = rs.getString("t.nome");
 	                    String nomeTecnico = rs.getString("t.tecnico");
 	                    String estadoTime = rs.getString("t.estado");
@@ -217,7 +217,7 @@ public class Jogador {
 	 * @param nome  O novo nome do jogador
 	 * @param nascimento A nova data de nascimento do jogador
 	 * @param time O novo time ao qual o jogador pertence
-	 * @return true se a atualização foi realizada com sucesso, false caso contrário
+	 * @return true se a atualizacao foi realizada com sucesso, false caso contrario
 	 */
 	public boolean atualizaJogador(String nome, Date nascimento, Time time) {
 		if (!consultarJogador(id))
@@ -231,16 +231,16 @@ public class Jogador {
 				String sql = "UPDATE jogador set nome=?, nascimento=?, id_time=? where id=?";
 				// Prepara a consulta
 				PreparedStatement ps = conexao.prepareStatement(sql);
-				// Define os par�metros da atualiza��o
+				// Define os parametros da atualizacao
 				ps.setString(1, nome);
 				ps.setDate(2,  new java.sql.Date(nascimento.getTime()));
 				ps.setInt(3, time.getId());
 				ps.setInt(4, id);
 				int totalRegistrosAfetados = ps.executeUpdate();
 				if (totalRegistrosAfetados == 0)
-					System.out.println("N�o foi feita a atualiza��o!");
+					System.out.println("Nao foi feita a atualizacao!");
 				else
-					System.out.println("Atualiza��o realizada!");
+					System.out.println("Atualizacao realizada!");
 				return true;
 			} catch (SQLException erro) {
 				System.out.println("Erro ao atualizar o cadastro do jogador: " + erro.toString());
@@ -257,21 +257,21 @@ public class Jogador {
 		else {
 			Connection conexao = null;
 			try {
-				// Define a conex�o
+				// Define a conexao
 				conexao = Conexao.conectaBanco();
 				// Define a consulta
 				String sql = "UPDATE jogador set nome=?, nascimento=?, id_time=null where id=?";
 				// Prepara a consulta
 				PreparedStatement ps = conexao.prepareStatement(sql);
-				// Define os par�metros da atualiza��o
+				// Define os parametros da atualizacao
 				ps.setString(1, nome);
 				ps.setDate(2,  new java.sql.Date(nascimento.getTime()));
 				ps.setInt(3, id);
 				int totalRegistrosAfetados = ps.executeUpdate();
 				if (totalRegistrosAfetados == 0)
-					System.out.println("N�o foi feita a atualiza��o!");
+					System.out.println("Nao foi feita a atualizacao!");
 				else
-					System.out.println("Atualiza��o realizada!");
+					System.out.println("Atualizacao realizada!");
 				return true;
 			} catch (SQLException erro) {
 				System.out.println("Erro ao atualizar o cadastro do jogador: " + erro.toString());
@@ -284,10 +284,10 @@ public class Jogador {
 	/**
 	 * Deleta um jogador do banco de dados com base no seu id
 	 * @param id O ID do jogador a ser deletado
-	 * @return true se a exclusão foi realizada com sucesso, false caso contrário
+	 * @return true se a exclusão foi realizada com sucesso, false caso contrario
 	 */
 	public boolean deletarJogador(int id) {
-		// Define a conex�o
+		// Define a conexao
 		Connection conexao = null;
 		try {
 			conexao = Conexao.conectaBanco();
@@ -295,13 +295,13 @@ public class Jogador {
 			String sql = "DELETE from jogador where id=?";
 			// Prepara a consulta
 			PreparedStatement ps = conexao.prepareStatement(sql);
-			// Define os par�metros da consulta
+			// Define os parametros da consulta
 			ps.setInt(1, id);
 			int totalRegistrosAfetados = ps.executeUpdate();
 			if (totalRegistrosAfetados == 0)
-				System.out.println("N�o foi feita a exclus�o do jogador!");
+				System.out.println("Nao foi feita a exclusao do jogador!");
 			else
-				System.out.println("Exclus�o realizada!");
+				System.out.println("Exclusao realizada!");
 				return true;
 		} catch (SQLException erro) {
 			System.out.println("Erro ao deletar o jogador: " + erro.toString());
@@ -311,10 +311,10 @@ public class Jogador {
 		}
 	}
 	/**
-	 * Obtém uma lista de todos os jogadores do banco de dados
+	 * Obtem uma lista de todos os jogadores do banco de dados
 	 * @return Uma lista de objetos Jogador contendo todos os jogadores
 	 *  cadastrados no banco de dados.
-	 *  Retorna null se não houver jogadores cadastrados
+	 *  Retorna null se nao houver jogadores cadastrados
 	 */
 	public static List<Jogador> obterListaJogadoresDoBanco() {
         List<Jogador> jogadores = new ArrayList<>();
@@ -325,7 +325,7 @@ public class Jogador {
             String sql = "select j.id, j.nome, j.nascimento, t.id, t.nome, t.tecnico, t.estado, t.cidade from jogador j LEFT JOIN time t ON j.id_time = t.id";
             PreparedStatement ps = conexao.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            if (!rs.isBeforeFirst()) { // Verifica se h� registros
+            if (!rs.isBeforeFirst()) { // Verifica se ha registros
                 System.out.println("N�o h� times cadastrados!");
                 return null;
             } else {
@@ -356,10 +356,10 @@ public class Jogador {
         }
     }
 	/**
-	 * Obtém uma lista de jogadores de um determinado time
+	 * Obtem uma lista de jogadores de um determinado time
 	 * @param time O objeto Time para  obter a lista de jogadores
 	 * @return Uma lista de objetos Jogador contendo os jogadores do time especificado.
-	 * Retorna null se não houver jogadores para o time informado
+	 * Retorna null se nao houver jogadores para o time informado
 	 */
 	public static List<Jogador> obterListaDeJogadoresDeTime(Time time){
 		List<Jogador> jogadoresDoTime = new ArrayList<>();

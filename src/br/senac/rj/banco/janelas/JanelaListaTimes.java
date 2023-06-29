@@ -18,14 +18,14 @@ import javax.swing.table.TableColumnModel;
 
 import br.senac.rj.banco.modelo.Time;
 /**
- * A classe JanelaListaTimes representa a janela de exibição da lista de times
+ * A classe JanelaListaTimes representa a janela de exibicao da lista de times
  * 
  */
 public class JanelaListaTimes {
     private static DefaultTableModel model; // Modelo de tabela para armazenar os dados dos times
     private static JTable table; // Tabela para exibir os times
     /**
-     * Cria e retorna a instância de JFrame da janela de lista de times
+     * Cria e retorna a instancia de JFrame da janela de lista de times
      * @return O JFrame da janela de lista de times
      */
 

@@ -20,7 +20,7 @@ import javax.swing.table.TableColumnModel;
 import br.senac.rj.banco.modelo.Jogador;
 /**
  * A classe JanelaListaJogadores representa
- * a janela de exibição da lista de jogadores
+ * a janela de exibicao da lista de jogadores
  * 
  *
  */
@@ -28,7 +28,7 @@ public class JanelaListaJogadores {
     private static DefaultTableModel model;  // Modelo de tabela para armazenar os dados dos jogadores
     private static JTable table; // Tabela para exibir os jogadores
 /**
- * Cria e retorna a instância de JFrame da janela de lista de jogadores
+ * Cria e retorna a instancia de JFrame da janela de lista de jogadores
  * @return O JFrame da janela de lista de jogadores
  */
     public static JFrame criarJanelaListaJogadores() {
